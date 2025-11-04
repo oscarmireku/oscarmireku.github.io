@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import Prism from "prismjs";
 import "prismjs/components/prism-javascript";
 import "@/assets/css/tomorrow.css";
+import itsupport from "@/assets/images/itsupport.png";
+import awsazure from "@/assets/images/awsazure.webp";
+import networking from "@/assets/images/networking.jpg"
 import Meteors from "@/components/ui/meteors";
 import AboutMePage from "@/pages/About/About";
 import SKillsPage from "@/pages/Skills/Skills";
@@ -16,23 +19,23 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
   {
-    title: "IT Support Snapshot",
+    title: "IT Technical Support ",
     text: "Providing frontline support for technical issues across desktops and networks.",
-    image: "https://placehold.co/400x250/0f172a/94a3b8?text=IT+Support"
+    image: itsupport
   },
   {
-    title: "Cloud Integration",
+    title: "Cloud Engineering",
     text: "Deploying hybrid cloud solutions using Azure, AWS, and on-prem infrastructure.",
-    image: "https://placehold.co/400x250/1e293b/94a3b8?text=Cloud+Architecture"
+    image: awsazure
   },
   {
-    title: "Network Topology",
+    title: "Network Administration",
     text: "Designing and managing secure, high-performance local and wide area networks.",
-    image: "https://placehold.co/400x250/0f172a/94a3b8?text=Network+Topology"
+    image: networking
   },
 ];
 
-const words = ["Network Administrator", "IT Support", "Azure Administrator"];
+const words = ["Network Administratior", "IT Support", "Azure Administrator"];
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
@@ -97,7 +100,7 @@ export default function Hero() {
                   <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
                     <h3 className="text-xl font-semibold mb-2">{slides[current].title}</h3>
                     {/* Updated text-gray-300 to text-muted-foreground/90 */}
-                    <p className="text-sm text-muted-foreground/90">{slides[current].text}</p>
+                    <p className="text-sm">{slides[current].text}</p>
                   </div>
                 </motion.div>
               </AnimatePresence>

@@ -129,7 +129,7 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold">Location</h3>
                     {/* Updated text color */}
-                    <p className="text-muted-foreground">Saint John, New Brunswick</p> 
+                    <p className="text-muted-foreground">Moncton, New Brunswick</p> 
                   </div>
                 </div>
               </div>

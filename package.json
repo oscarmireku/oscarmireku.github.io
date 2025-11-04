@@ -1,6 +1,7 @@
 {
   "name": "react",
   "private": false,
+  "homepage": "https://oscarmireku.github.io/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

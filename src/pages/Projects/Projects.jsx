@@ -1,68 +1,133 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Link, Share2 } from 'lucide-react';
-import { scroller } from "react-scroll";
+import banner from "@/assets/images/entraidconnect/banner.png";
+import topology from "@/assets/images/dhcp/topology.png";
+import entraarticle from "@/entraid.html?raw"; 
+import project2 from "@/dhcp.html?raw"; 
+import  "@/assets/portfolio.css";
+import adusers from "@/assets/images/entraidconnect/ADusers.png";
+import express from "@/assets/images/entraidconnect/express_settings.png";
+import beforesync from "@/assets/images/entraidconnect/2entraidbeforesync.png";
+import globalcred from "@/assets/images/entraidconnect/3enterglobalcred.png";
+import addscred from "@/assets/images/entraidconnect/4enteraddscred.png"; 
+import selectupn from "@/assets/images/entraidconnect/5continuematching.png"; 
+import install from "@/assets/images/entraidconnect/5 install.png"; 
+import syncedusers from "@/assets/images/entraidconnect/6syncedusers.png"; 
+import syncedgroups from "@/assets/images/entraidconnect/7syncedgroups.png"; 
+import customised from "@/assets/images/entraidconnect/8customise.png"; 
+import addforest from "@/assets/images/entraidconnect/9addforest.png";
+import selectOUs from "@/assets/images/entraidconnect/10selectOUs.png";
+import writebacks from "@/assets/images/entraidconnect/11writebacks.png";
+import finalgroupss from "@/assets/images/entraidconnect/12finalgroups.png"; 
+
+
+
+import vnet from "@/assets/images/dhcp/vneteditor.png";
+import dc from "@/assets/images/dhcp/dcsettings.png";
+import eth from "@/assets/images/dhcp/ethernet1.png";
+import scope from "@/assets/images/dhcp/dhcpscope.png";
+import hrscope from "@/assets/images/dhcp/hr.png";
+import salesscope from "@/assets/images/dhcp/sales.png";
+import itscope from "@/assets/images/dhcp/it.png";
+import marketingscope from "@/assets/images/dhcp/marketing.png";
+import router0 from "@/assets/images/dhcp/r0.png";
+import edger1 from "@/assets/images/dhcp/edge1.png";
+import edger2 from "@/assets/images/dhcp/edge2.png";
+import router1 from "@/assets/images/dhcp/r1.png";
+import router2 from "@/assets/images/dhcp/r2.png";
+import r1route from "@/assets/images/dhcp/r1route.png";
+import r2route from "@/assets/images/dhcp/r2route.png";
+import hrdhcp from "@/assets/images/dhcp/hrpc.png";
+import saleshdcp from "@/assets/images/dhcp/salespc.png";
+import itdhcp from "@/assets/images/dhcp/itpc.png";
+import marketingdhcp from "@/assets/images/dhcp/marketingpc.png";
+import scopehr from "@/assets/images/dhcp/hrscope.png";
+import scopesales from "@/assets/images/dhcp/salesscope.png";
+import scopeit from "@/assets/images/dhcp/itscope.png";
+import scopemarketing from "@/assets/images/dhcp/marketingscope.png";
+
+
+
+
+
 
 
 // Helper function to create a URL-friendly slug from a title
 const createSlug = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[!?,.:;"()]/g, '');
 
+const entra = entraarticle
+    .replace("{{adusers}}", adusers)
+    .replace("{{express}}", express)
+    .replace("{{beforesync}}", beforesync)
+    .replace("{{globalcred}}", globalcred)
+    .replace("{{selectupn}}", selectupn)
+    .replace("{{install}}", install)
+    .replace("{{syncedusers}}", syncedusers)
+    .replace("{{syncedgroups}}", syncedgroups)
+    .replace("{{customised}}", customised)
+    .replace("{{addforest}}", addforest)
+    .replace("{{selectOUs}}", selectOUs)
+    .replace("{{writebacks}}", writebacks)
+    .replace("{{finalgroupss}}", finalgroupss)
+    .replace("{{addscred}}", addscred);
 
+    const projectec = project2
+    .replace("{{vnet}}", vnet)
+    .replace("{{topology}}", topology)
+    .replace("{{dc}}", dc)
+    .replace("{{eth}}", eth)
+    .replace("{{scope}}", scope)
+    .replace("{{hrscope}}", hrscope)
+    .replace("{{salescope}}", salesscope)
+    .replace("{{itscope}}", itscope)
+    .replace("{{marketingscope}}", marketingscope)
+    .replace("{{r0}}", router0)
+    .replace("{{edge1}}", edger1)
+    .replace("{{edge2}}", edger2)
+    .replace("{{r1}}", router1)
+    .replace("{{r2}}", router2)
+    .replace("{{r1route}}", r1route)
+    .replace("{{r2route}}", r2route)
+    .replace("{{hrdhcp}}", hrdhcp)
+    .replace("{{salesdhcp}}", saleshdcp)
+    .replace("{{itdhcp}}", itdhcp)
+    .replace("{{marketingdhcp}}", marketingdhcp)
+    .replace("{{scopehr}}", scopehr)
+    .replace("{{scopesales}}", scopesales)
+    .replace("{{scopeit}}", scopeit)
+    .replace("{{scopemarketing}}", scopemarketing);
+
+    
 // Data for the projects, with an added 'longDescription' and 'date' for the detail page.
 const projects = [
+ 
+  /**{
+    title: "Configuring Self-Service Password Reset in Microsoft Entra ID",
+    description: "Configured Entra ID Connect to sync On-Prem users to Entra ID",
+    date: "2025-10-23",
+    longDescription: entra,
+    tags: ["Entra ID Connect", "Hybrid Identity", "Active Directory", "Synchronization", "Single Sign-On", "Password Writeback"],
+    image: banner
+  }, **/
+  
   {
-    title: "Azure Site-to-Site VPN Connection",
-    description: "Configured a secure, resilient VPN between Azure VNet and an on-premises network.",
+    title: "DHCP Deployment with Cross-VM Custom VNet Integration in VMware",
+    description: "Configured DHCP Relay in an EVE-NG topology to assign IP addresses from a centralized Windows Server hosted on a separate VMware Custom VNet.",
     date: "2025-10-20",
-    longDescription: `
-        <p>This project involved setting up a robust, highly available Site-to-Site VPN using Azure Virtual WAN and a simulated on-premises gateway. The primary goal was to ensure seamless, secure communication for hybrid cloud applications and data synchronization. Key technologies utilized included Azure VPN Gateway, BGP routing, and strong encryption protocols (IKEv2).</p>
-        <p><em>The solution provided a secure, cost-effective extension of the corporate network into the cloud.</em></p>
-        <img src="https://placehold.co/1200x800/0f172a/94a3b8?text=VPN+Topology+Diagram" alt="VPN Topology Diagram" class="rounded-lg my-4" />
-        <h3 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 700;">Technical Achievements</h3>
-        <ul>
-            <li>Achieved 99.9% uptime for the connection using redundant gateway configurations.</li>
-            <li>Implemented custom routing tables (UDRs) to optimize traffic flow between cloud and on-prem subnets.</li>
-            <li>Automated configuration deployment using Terraform for infrastructure as code (IaC).</li>
-        </ul>
-        <p>This project sharpened my skills in network security, Azure networking services, and automation, providing a deep understanding of hybrid cloud connectivity challenges.</p>
-    `,
-    tags: ["Azure Networking", "Site-to-Site VPN", "BGP", "Terraform", "Cloud Security"],
-    image: "https://placehold.co/1200x800/0f172a/94a3b8?text=Azure+VPN"
+    longDescription: projectec,
+    tags: ["VMware", "DHCP Relay", "Windows Server", "OSPF", "Custom VNet"],
+    image: topology
   },
-  {
-    title: "Active Directory Migration to Azure AD",
-    description: "Successfully migrated 500+ users and groups from on-premises AD to Azure Active Directory.",
-    date: "2025-08-15",
-    longDescription: `
-        <p>The objective was to modernize identity management by moving from a legacy on-premises Active Directory (AD) to Azure Active Directory (Azure AD) for enhanced security, single sign-on (SSO) capabilities, and simplified user access management. The project utilized Azure AD Connect to synchronize users, groups, and password hashes, followed by a phased rollout of conditional access policies.</p>
-        <img src="https://placehold.co/1200x800/1e293b/94a3b8?text=Azure+AD+Dashboard" alt="Azure AD Dashboard" class="rounded-lg my-4" />
-        <h3 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 700;">Key Outcomes</h3>
-        <ul>
-            <li>Implemented Multi-Factor Authentication (MFA) company-wide, reducing phishing risks by over 90%.</li>
-            <li>Enabled Single Sign-On (SSO) for core SaaS applications, improving user experience.</li>
-            <li>Created and enforced Conditional Access policies based on location and device compliance.</li>
-        </ul>
-    `,
-    tags: ["Azure AD", "Identity Management", "SSO", "MFA", "Conditional Access"],
-    image: "https://placehold.co/1200x800/1e293b/94a3b8?text=AD+Migration"
+   {
+    title: "Implementing Hybrid Identity with Microsoft Entra ID Connect",
+    description: "Configured Entra ID Connect to sync On-Prem users to Entra ID",
+    date: "2025-10-16",
+    longDescription: entra,
+    tags: ["Entra ID Connect", "Hybrid Identity", "Active Directory", "Synchronization", "Single Sign-On", "Password Writeback"],
+    image: banner
   },
-  {
-    title: "Automated VM Patch Management",
-    description: "Developed PowerShell scripts and Azure Automation runbooks for automated patching of 100+ Windows Servers.",
-    date: "2025-06-01",
-    longDescription: `
-        <p>Patching a large fleet of virtual machines (VMs) manually was time-consuming and prone to human error. This project focused on creating a scalable, automated solution using **Azure Automation Update Management**. I authored custom PowerShell DSC (Desired State Configuration) scripts to handle pre- and post-update tasks, ensuring application health checks were performed before and after every patching cycle.</p>
-        <img src="https://placehold.co/1200x800/0f172a/94a3b8?text=PowerShell+Script+Example" alt="PowerShell Script Example" class="rounded-lg my-4" />
-        <h3 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 700;">Solution Highlights</h3>
-        <ul>
-            <li>Reduced manual patching time by 80%, allowing the team to focus on strategic tasks.</li>
-            <li>Improved security compliance scores by guaranteeing monthly patching cycles were met.</li>
-            <li>Implemented a change control process integrated with Azure DevOps for tracking approvals.</li>
-        </ul>
-    `,
-    tags: ["Azure Automation", "PowerShell", "VM Management", "Patching", "DSC"],
-    image: "https://placehold.co/1200x800/0f172a/94a3b8?text=Automation"
-  }
+
 ];
 
 
@@ -179,7 +244,7 @@ function ProjectDetail({ project, onBack }) {
         if (navigator.share) {
             navigator.share({
                 title: project.title,
-                text: project.description,
+                text: project.title,
                 url: window.location.href,
             }).catch(err => console.error('Error sharing', err));
         } else {
@@ -263,7 +328,7 @@ function ProjectDetail({ project, onBack }) {
                     </div>
 
                     <div 
-                        className="prose prose-invert prose-lg max-w-none text-muted-foreground leading-relaxed" 
+                        className="prose prose-invert prose-lg max-w-none text-muted-foreground leading-relaxed test-mic" 
                         dangerouslySetInnerHTML={{ __html: project.longDescription }}
                     />
                 </div>
@@ -271,6 +336,9 @@ function ProjectDetail({ project, onBack }) {
         </motion.div>
     );
 }
+
+// Main App component to manage state and switch between views
+// ... (All code above this point remains the same) ...
 
 // Main App component to manage state and switch between views
 export default function App() {
@@ -290,6 +358,27 @@ export default function App() {
     detail: { isOpen: false }
   }));
   };
+
+  // --- START: UPDATED SCROLL LOCK LOGIC ---
+  useEffect(() => {
+    const isProjectOpen = selectedProject !== null;
+    
+    if (isProjectOpen) {
+      document.body.style.overflow = 'hidden';
+      // Optionally add a class for broader CSS control/compatibility
+      document.body.classList.add('modal-open'); 
+    } else {
+      document.body.style.overflow = ''; // Resets to default
+      document.body.classList.remove('modal-open');
+    }
+
+    // Cleanup function ensures scrolling is re-enabled when the component unmounts or state changes
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    };
+  }, [selectedProject]);
+  // --- END: UPDATED SCROLL LOCK LOGIC ---
 
   useEffect(() => {
     const handleHashChange = () => {

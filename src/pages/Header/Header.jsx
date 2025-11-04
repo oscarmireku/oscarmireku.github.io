@@ -4,37 +4,28 @@ import {
   FaLaptopCode,
   FaUser,
   FaBriefcase,
-  FaGraduationCap,
   FaCode,
   FaEnvelope,
   FaBars,
 } from "react-icons/fa";
-import { Sun, Moon } from "lucide-react"; 
-import { Link as ScrollLink, scroller, Events, scrollSpy } from "react-scroll";
+import { Sun, Moon } from "lucide-react";
+import { Link as ScrollLink, scroller, Events } from "react-scroll";
 
-// --- Theme Hook Implementation ---
+/* Simple local theme hook (unchanged) */
 const useTheme = () => {
-    const [theme, setTheme] = useState(
-      localStorage.getItem('theme') || 'light' 
-    );
-  
-    useEffect(() => {
-      const root = window.document.documentElement;
-      root.classList.remove('light', 'dark'); 
-      root.classList.add(theme); 
-      localStorage.setItem('theme', theme); 
-    }, [theme]);
-  
-    const toggleTheme = () => {
-      setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
-    };
-  
-    return { theme, toggleTheme };
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+  return { theme, toggleTheme };
 };
-// ---------------------------------
 
 export default function Header() {
-  const { theme, toggleTheme } = useTheme(); 
+  const { theme, toggleTheme } = useTheme();
   const [activeLink, setActiveLink] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -52,23 +43,9 @@ export default function Header() {
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
-    const handleScroll = () => {
-      const sections = ["home", "skills", "projects", "experience", "about", "contact"];
-      for (let section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-            setActiveLink(section);
-            break;
-          }
-        }
-      }
-    };
-    
+    const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
-
     Events.scrollEvent.register("end", () => {});
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -102,7 +79,6 @@ export default function Header() {
       const { isOpen } = event.detail;
       setIsHeaderVisible(!isOpen);
     };
-
     window.addEventListener("project-detail-view", handleProjectDetailToggle);
     return () => {
       window.removeEventListener("project-detail-view", handleProjectDetailToggle);
@@ -117,69 +93,125 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-1 left-0 w-full z-40 transition-transform duration-500 ease-in-out transform ${scrollY > 30 ? "scale-[0.98] shadow-2xl" : "scale-100"} ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      className={`fixed top-1 left-0 w-full z-40 transition-transform duration-500 ease-in-out transform ${
+        scrollY > 100 ? "scale-[0.95]" : "scale-100"      } ${isHeaderVisible ? "translate-y-0" : "-translate-y-full"}`}
     >
+      {/* Mobile hamburger (unchanged placement) */}
+      <div className="absolute top-0 w-full md:hidden flex justify-end p-4 z-50">
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="text-foreground p-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-full border border-border/80 shadow-lg mt-4 mr-2"
+          aria-label="Toggle navigation menu"
+        >
+          <FaBars />
+        </button>
+      </div>
+
+      {/* Desktop navbar pill — now with internal overlay to stop side transparency */}
       <div
-        // FINAL GLASS EFFECT: Reduced opacity to '50' for higher transparency and ensured max blur ('backdrop-blur-xl') and strong border/shadow are applied.
-        className="bg-card/50 backdrop-blur-xl border border-border/80 shadow-2xl rounded-2xl mx-auto max-w-fit mt-4 px-6 py-3" 
+        className={`relative mx-auto mt-4 px-6 py-3 hidden md:block max-w-fit rounded-2xl overflow-hidden border border-white/20 dark:border-white/10 shadow-2xl backdrop-blur-xl`}
       >
-        <div className="flex justify-between items-center md:hidden px-2">
-          <span className="text-foreground font-bold">Portfolio</span>
+        {/* Overlay: opaque on sides, glassy in center */}
+        <span
+          aria-hidden="true"
+          className="
+            pointer-events-none absolute inset-0 rounded-[inherit]
+            bg-gradient-to-r
+            from-white/95 via-white/70 to-white/95
+            dark:from-slate-900/95 dark:via-slate-900/70 dark:to-slate-900/95
+          "
+        />
+        {/* Content must be positioned 'relative' to sit above overlay */}
+        <div className="relative flex flex-col md:flex-row md:items-center gap-2 md:gap-1 lg:gap-2 py-4 md:py-0">
+          {navLinks.map(({ id, icon: Icon, text }) => (
+            <ScrollLink
+              key={id}
+              to={id}
+              spy={true}
+              smooth={true}
+              offset={0}
+              duration={700}
+              isDynamic={true}
+              hashSpy={true}
+              onSetActive={handleSetActive}
+              className={`px-3 py-2 md:py-1.5 rounded-lg md:rounded-full text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-2 
+                hover:bg-accent hover:scale-105 hover:shadow-md cursor-pointer
+                ${
+                  activeLink === id
+                    ? "bg-gradient-to-r from-blue-500 to-teal-400 text-white shadow-lg ring-2 ring-blue-400 hover:scale-110 hover:rotate-1"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+            >
+              <Icon
+                className={`text-base transition-transform duration-300 ${
+                  activeLink === id ? "scale-110 rotate-1" : ""
+                }`}
+              />
+              <span>{text}</span>
+            </ScrollLink>
+          ))}
+
+          {/* Theme toggle */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-foreground p-2" 
+            onClick={toggleTheme}
+            className="px-3 py-2 md:py-1.5 rounded-lg md:rounded-full text-sm font-medium transition-all duration-500 ease-in-out flex items-center justify-center 
+              hover:bg-accent hover:scale-105 hover:shadow-md cursor-pointer 
+              text-muted-foreground hover:text-foreground relative"
+            aria-label="Toggle theme"
           >
-            <FaBars />
+            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
         </div>
+      </div>
 
-        <div className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
-          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-1 lg:gap-2 py-4 md:py-0">
-            {navLinks.map(({ id, icon: Icon, text }) => (
-              <ScrollLink
-                key={id}
-                to={id}
-                spy={true}
-                smooth={true}
-                offset={0}
-                duration={700}
-                isDynamic={true}
-                hashSpy={true}
-                onSetActive={handleSetActive}
-                className={`px-3 py-2 md:py-1.5 rounded-lg md:rounded-full text-sm font-medium transition-all duration-500 ease-in-out flex items-center gap-2 
-                  hover:bg-accent hover:scale-105 hover:shadow-md cursor-pointer 
-                  ${
-                    activeLink === id
-                      ? "bg-gradient-to-r from-blue-500 to-teal-400 text-white shadow-lg ring-2 ring-blue-400 hover:scale-110 hover:rotate-1"
-                      : "text-muted-foreground hover:text-foreground" 
-                  }`}
+      {/* Mobile dropdown — slightly firmer background to avoid halo */}
+      {isMenuOpen && (
+        <div className="md:hidden absolute top-[70px] right-2 mt-2 w-auto">
+          <div className="relative flex flex-col gap-2 p-4 rounded-xl shadow-2xl border border-white/20 dark:border-white/10 overflow-hidden backdrop-blur-xl">
+            {/* overlay to remove edge transparency on mobile menu as well */}
+            <span
+              aria-hidden="true"
+              className="
+                pointer-events-none absolute inset-0 rounded-[inherit]
+                bg-white/92 dark:bg-slate-900/92
+              "
+            />
+            <div className="relative">
+              {navLinks.map(({ id, icon: Icon, text }) => (
+                <ScrollLink
+                  key={id}
+                  to={id}
+                  spy={true}
+                  smooth={true}
+                  offset={0}
+                  duration={700}
+                  onSetActive={handleSetActive}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-500 flex items-center gap-2 
+                    hover:bg-accent hover:shadow-md cursor-pointer 
+                    ${
+                      activeLink === id
+                        ? "bg-gradient-to-r from-blue-500 to-teal-400 text-white shadow-lg ring-1 ring-blue-400"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    }`}
+                >
+                  <Icon className="text-base" />
+                  <span>{text}</span>
+                </ScrollLink>
+              ))}
+              <button
+                onClick={toggleTheme}
+                className="mt-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-500 flex items-center justify-start gap-2 
+                  hover:bg-accent hover:shadow-md cursor-pointer 
+                  text-muted-foreground hover:text-foreground"
+                aria-label="Toggle theme"
               >
-                <Icon
-                  className={`text-base transition-transform duration-300 ${
-                    activeLink === id ? "scale-110 rotate-1" : ""
-                  }`}
-                />
-                <span>{text}</span>
-              </ScrollLink>
-            ))}
-             {/* --- Mode Toggle Button --- */}
-            <button
-              onClick={toggleTheme}
-              className={`px-3 py-2 md:py-1.5 rounded-lg md:rounded-full text-sm font-medium transition-all duration-500 ease-in-out flex items-center justify-center 
-                        hover:bg-accent hover:scale-105 hover:shadow-md cursor-pointer 
-                        text-muted-foreground hover:text-foreground`}
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </button>
-            {/* --------------------------- */}
+                {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                <span>Theme Toggle</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 }

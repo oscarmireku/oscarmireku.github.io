@@ -3,23 +3,25 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Network,  Cpu, Cloud,  RouterIcon, ArrowLeftRight, 
         EthernetPortIcon, FolderOpen, 
-        ServerCog, UsersRound, IdCard, CloudDownload, ServerIcon, PrinterIcon, } from "lucide-react";
+        ServerCog, UsersRound, IdCard, CloudDownload, ServerIcon, PrinterIcon,
+        User, } from "lucide-react";
 import {
   FaLinux,
   FaAws,
   FaMicrosoft,
   FaCloud,
   FaWatchmanMonitoring,
-  FaCode
+  FaCode,
+  FaTicketAlt
 } from "react-icons/fa";
 import {
   SiVmware,
   SiProxmox,
   SiMacos,
 } from "react-icons/si";
-import { BsActivity,  BsWindows } from "react-icons/bs";
-import { MdDns, MdHttp, MdSecurity, MdTroubleshoot, MdOutlineComputer, MdOutlineHardware } from "react-icons/md";
-import { FcAddressBook,  } from "react-icons/fc";
+import { BsActivity,  BsMicrosoft,  BsWindows } from "react-icons/bs";
+import { MdDns, MdHttp, MdSecurity, MdTroubleshoot, MdOutlineComputer, MdOutlineHardware, MdEmojiPeople, MdPeople, MdLeaderboard, MdAccessible, MdAddToQueue } from "react-icons/md";
+import { FcAddressBook, FcDocument,  } from "react-icons/fc";
 
 
 const SkillCard = ({ icon: Icon, title, skills, color }) => (
@@ -83,8 +85,9 @@ const skillCategories = [
     color: "text-red-500",
     skills: [
       { name: "Windows Server", icon: <BsWindows className="text-blue-400" /> },
-      { name: "Linux (Ubuntu/CentOS)", icon: <FaLinux className="text-orange-600" /> },
-      { name: "VMware vSphere", icon: <SiVmware className="text-gray-400" /> },
+      { name: "Windows 10/11", icon: <BsWindows className="text-blue-400" /> },
+      { name: "Linux", icon: <FaLinux className="text-orange-600" /> },
+      { name: "VMware", icon: <SiVmware className="text-gray-400" /> },
       { name: "Proxmox", icon: <SiProxmox className="text-green-500" /> },
       { name: "MacOS", icon: <SiMacos className="text-blue-300" /> },
     ],
@@ -96,9 +99,9 @@ const skillCategories = [
     skills: [
       { name: "TCP/IP", icon: <EthernetPortIcon className="text-teal-400" /> },
       { name: "DNS/DHCP", icon: <MdDns className="text-green-500" /> },
-      { name: "VPN (Site-to-Site)", icon: <ArrowLeftRight className="text-indigo-400" /> },
-      { name: "Routing/Switching", icon: <RouterIcon className="text-red-400" /> },
-      { name: "Protocols (HTTP/S)", icon: <MdHttp className="text-yellow-400" /> },
+      { name: "VLANs, NAT, OSPF, ACLs", icon: <Network className="text-indigo-400" /> },
+      { name: "Cisco Routing/Switching", icon: <RouterIcon className="text-red-400" /> },
+      { name: "Protocols (HTTP/HTTPS)", icon: <MdHttp className="text-yellow-400" /> },
     ],
   },
   {
@@ -107,24 +110,14 @@ const skillCategories = [
     color: "text-yellow-500",
     skills: [
       { name: "Active Directory", icon: <UsersRound className="text-blue-500" /> },
-      { name: "Group Policy", icon: <IdCard className="text-green-500" /> },
-      { name: "System Monitoring", icon: <FaWatchmanMonitoring className="text-red-500" /> },
-      { name: "Scripting (Bash/PowerShell)", icon: <FaCode className="text-indigo-400" /> },
-      { name: "Data Backup", icon: <FolderOpen className="text-yellow-600" /> },
+      { name: "Group Policy (GPOs)", icon: <IdCard className="text-green-500" /> },
+      { name: "Microsoft 365", icon: <BsMicrosoft className="text-red-500" /> },
+      { name: "Scripting (PowerShell)", icon: <FaCode className="text-indigo-400" /> },
+      { name: "Entra ID", icon: <User className="text-yellow-600" /> },
     ],
   },
-  {
-    icon: MdSecurity,
-    title: "Security & Compliance",
-    color: "text-indigo-500",
-    skills: [
-      { name: "Firewall Management", icon: <MdSecurity className="text-red-500" /> },
-      { name: "Endpoint Protection", icon: <MdOutlineComputer className="text-blue-500" /> },
-      { name: "Vulnerability Scans", icon: <MdTroubleshoot className="text-yellow-500" /> },
-      { name: "Patch Management", icon: <BsActivity className="text-teal-400" /> },
-    ],
-  },
-  {
+
+{
     icon: Cpu,
     title: "Hardware & Support",
     color: "text-pink-500",
@@ -132,9 +125,24 @@ const skillCategories = [
       { name: "PC & Server Hardware", icon: <MdOutlineHardware className="text-gray-400" /> },
       { name: "Troubleshooting", icon: <MdTroubleshoot className="text-red-500" /> },
       { name: "Printer Mgmt", icon: <PrinterIcon className="text-green-500" /> },
-      { name: "Asset Tracking", icon: <FcAddressBook /> },
+      { name: "Ticketing Systems", icon: <FaTicketAlt /> },
+      { name: "Documentation", icon: <FcDocument /> },
     ],
   },
+
+  {
+    icon: MdPeople,
+    title: "Soft Skills",
+    color: "text-indigo-500",
+    skills: [
+      { name: "Teamwork", icon: <MdAddToQueue className="text-red-500" /> },
+      { name: "Collaboration", icon: <MdOutlineComputer className="text-blue-500" /> },
+      { name: "Resilience", icon: <MdTroubleshoot className="text-yellow-500" /> },
+      { name: "Communication", icon: <BsActivity className="text-teal-400" /> },
+      { name: "Leadership", icon: <MdLeaderboard className="text-teal-400" /> },
+    ],
+  },
+  
 ];
 
 const SkillsSection = () => {

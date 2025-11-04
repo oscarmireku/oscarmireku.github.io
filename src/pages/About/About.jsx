@@ -1,5 +1,5 @@
 import HeroImg from "@/assets/images/profile.jpg";
-import OlovaLogo from "@/assets/images/olova.png";
+
 
 export default function About() {
   return (
@@ -12,7 +12,7 @@ export default function About() {
           <h2 
             // Updated header text color
             className="relative z-10 max-w-xl text-4xl font-medium lg:text-5xl text-foreground">
-            Network Administrator
+            About Me
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 md:gap-12 lg:gap-20">
             <div className="relative mb-6 sm:mb-0">
