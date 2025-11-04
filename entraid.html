@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Implementing Hybrid Identity with Microsoft Entra ID Connect" />
+    <meta property="og:description" content="Configured Entra ID Connect to sync On-Prem users to Entra ID" />
+    <meta property="og:image" content="https://oscarmireku.github.io/assets/entraidconnet/banner.jpg" />
+    <meta property="og:url" content="https://oscarmireku.github.io/#implementing-hybrid-identity-with-microsoft-entra-id-connect" />
+    <meta property="og:type" content="article" />
+    
+</head>
+<body>
+    
+    <h2>Executive Summary</h2>
+    <p>This project documents the successful deployment and configuration of <b>Microsoft Entra ID Connect (formerly Azure AD Connect)</b> to establish
+         a unified Hybrid Identity solution for a mid-sized enterprise environment. The primary goal was to seamlessly synchronize on-premises 
+         <b>Active Directory Domain Services (AD DS)</b> user accounts and groups to Microsoft Entra ID, enabling Single Sign-On (SSO) and centralizing
+          identity management to improve security and operational efficiency.</p>
+    
+    <h2>Background</h2>
+    <p>CloudTech Solutions previously managed all identities locally on their domain controller. This limited remote work capabilities and created password management challenges. 
+        The IT team also struggled with inconsistent account provisioning and manual user creation for cloud applications.</p>
+
+    <h2>Project Overview</h2>
+    
+    <h3>The Challenge</h3>
+    <p>The client lacked a unified identity solution, requiring users to maintain separate passwords for on-premises resources and cloud services (e.g., Microsoft 365). This led to: </p>
+    <ol>
+        <li>Inefficient user provisioning/deprovisioning.</li>
+        <li>Increased help desk costs due to password resets.</li>
+        <li>Security risk from inconsistent password policies and lack of centralized control.</li>
+        <li>No MFA or modern authentication policies.</li>
+    </ol>
+
+    <h3>The Goal</h3>
+    <p>To implement a Hybrid Identity solution using Microsoft Entra ID Connect to: </p>
+
+    <ol>
+        <li>Synchronize all on-premises user accounts and groups to Microsoft Entra ID (the cloud directory). </li>
+        <li>Establish Single Sign-On (SSO) capability for all cloud applications.</li>
+        <li>Centralize identity management to improve security and operational efficiency.</li>
+    </ol>
+
+    <h3>Implementation Steps and Configuration Details</h3>
+    <p>CloudTech Solutions currently operates with a single Windows Server 2022 domain controller for the <b>cloudtech.local</b> domain.
+        The Active Directory Domain Services (AD DS) structure is organized into four main Organizational Units (OUs), reflecting the 
+        four departments: HR, IT, Sales, and Marketing. Each of these OUs contains three user accounts and one security group, as seen below.
+        <img src="{{adusers}}">
+    </p>
+    <p class="italic-style">OUs representing the 4 departments in the organisation</p>
+
+    <p>To begin, download the Microsoft Entra Connect Sync application. You will find the download link within the Microsoft Entra Connect 
+        blade of the Microsoft Entra Admin Center. The application should then be installed on the Windows Server 2022 instance.</p>
+
+        <h3>Using Express Settings</h3>
+
+    <p>We will start by utilizing the <b>Express Settings</b>, which is the default and recommended installation option for the majority of organizations
+         operating with a single forest topology. This will synchronize all attributes in the forest. We plan to use the more advanced Custom Settings later on, as this option provides more granular
+          control over the installation and synchronization process.This allows for precise control over which users and groups sync to the cloud, 
+          in addition to enabling other configuration choices.
+           <img src="{{express}}">
+    </p>
+    <p class="italic-style">Express Settings in Microsoft Entra Connect Sync</p>
+
+    <p>Presently, the Entra ID tenant contains only the <b>Global Administrator account</b>. This role is the most powerful and highly privileged
+         built-in role available in Microsoft Entra ID, granting unlimited access to all administrative features within Entra ID and any integrated
+          services that rely on Entra identities (such as Microsoft 365, Exchange, and SharePoint).</p>
+    <p>After the synchronization process is established, this area will be populated with the users and groups from your on-premises Active Directory.
+        <img src="{{beforesync}}">
+    </p>
+    <p class="italic-style">Entra ID users before sync</p>
+
+    <p>Enter the <b>Global Administrator credentials</b> for your Microsoft Entra ID tenant, and then click Next.
+        <img src="{{globalcred}}">
+    </p>
+    <p class="italic-style">Global Administrator Credentials</p>
+
+    <p>Provide the <b>Enterprise Administrator credentials</b> for your Active Directory Domain Services (AD DS), and then click Next.
+        <img src="{{addscred}}">
+    </p>
+    <p class="italic-style">Enterprise Administrator Credentials</p>
+
+    <p>Select the option to Continue without matching all User Principal Name (UPN) suffixes to verified domains, and click Next.
+        <img src="{{selectupn}}">
+    </p>
+    <p class="italic-style">Tick to match all UPN suffixes to verified domains</p>
+    
+    <p>Click Install to begin the synchronization setup. This process will install necessary components, such as the Microsoft Entra Connect Health agent.
+        <img src="{{install}}">
+    </p>
+    <p class="italic-style">Ready to install</p>
+
+    <p>After the installation process is complete, navigate to the Microsoft Entra ID users and groups section to verify the newly synchronized objects.
+         <img src="{{syncedusers}}">
+         <p class="italic-style">Entra ID shows all synced users from cloudtech.local active directory</p>
+          <img src="{{syncedgroups}}">
+          <p class="italic-style">Entra ID shows all synced groups from cloudtech.local active directory</p>
+    </p>
+
+    <h3>Using Custom Settings</h3>
+    <p>Select<b> Customize Synchronization Options</b> and click next.
+        <img src="{{customised}}">
+        <p class="italic-style">Customise synchronization options</p>
+     </p>
+
+     <p>Enter the credentials for both the Global Administrator (for Microsoft Entra ID) and the Enterprise Administrator 
+        (for Active Directory Domain Services), and then proceed by clicking Next.</p>
+
+    <p>Connect the <b>cloudtech.local</b> forest, click Next, and then select the specific Organizational Units (OUs) that you wish to synchronize to Microsoft Entra ID.
+       <img src="{{addforest}}"> 
+        <p class="italic-style">Add the domain</p>
+       <img src="{{selectOUs}}">
+        <p class="italic-style">Select the specific OUs to be synced</p>
+    </p>
+
+    <p>Enable below optional features: </p>
+     <ol>
+        <li><b>Password Hash Synchronization (PHS):</b> Allows users to sign into Azure using their on-premises passwords without the need for additional Single Sign-On (SSO)
+             infrastructure.</li>
+        <li><b>Password Writeback:</b> Enables password changes that originate in Microsoft Entra ID to be securely written back to your on-premises Active Directory.</li>
+        <li><b>Group Writeback:</b> Allows groups configured for writeback in Microsoft Entra ID to be written back to your on-premises directory.</li>
+    </ol>
+        <img src="{{writebacks}}">
+        <p class="italic-style">Select the optional features to include</p>
+
+    <p>Once the configuration is complete, log back into Microsoft Entra ID groups to verify the synchronization results. You should see that only the groups
+         within the selected Organizational Units (OUs) have been synchronized, while the existing user list in Entra ID remains the same.</p>
+         <img src="{{finalgroupss}}">
+        <p class="italic-style">Entra ID shows all synced groups selected from the OUs</p>
+
+    <h3>Outcome and Achievements</h3>
+    <p>By implementing Microsoft Entra ID Connect: </p>
+
+    <ol>
+        <li>100% of employees now access both on-prem and cloud resources via SSO. </li>
+        <li>IT support tickets for password resets dropped by 65%.</li>
+        <li>CloudTech achieved simplified IT management through centralized password and policy controls.</li>
+        <li>CloudTech achieved enhanced security posture with MFA and Conditional Access.</li>
+        <li>CloudTech successfully met industry compliance requirements for data protection.</li>
+    </ol>
+
+</body>
+</html>
