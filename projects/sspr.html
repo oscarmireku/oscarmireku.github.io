@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuring Self-Service Password Reset in Microsoft Entra ID | Oscar Mireku</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <meta property="og:title" content="Configuring Self-Service Password Reset in Microsoft Entra ID" />
+    <meta property="og:description" content="Configured Entra ID Connect to sync On-Prem users to Entra ID" />
+    <meta property="og:type" content="article" />
+</head>
+
+<body class="project-page">
+    <header id="header">
+        <nav class="navbar">
+            <div class="logo">Oscar<span>Mireku</span></div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact" class="btn-primary">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Lively Full-Width Hero -->
+        <div class="project-hero-section">
+            <img src="../images/sspr/main.jpg" class="project-hero-bg" alt="SSPR Architecture">
+            <div class="project-hero-overlay">
+                <h1>Implementing Secure Self-Service Password Reset in Microsoft Entra ID</h1>
+                <p style="margin-bottom: 5rem;"> </p>
+            </div>
+        </div>
+
+        <section class="section" style="padding-top: 0;">
+            <div class="container project-content-wrapper">
+                <div class="detailed-content">
+                    <h2>Executive Summary</h2>
+                    <p>CloudTech implemented <b>Self-Service Password Reset (SSPR)</b> using Microsoft Entra ID to
+                        address a critical operational inefficiency: high volume
+                        of password-related helpdesk tickets. The project was executed with a strong focus on security,
+                        requiring users to validate their identity using a high security
+                        <b>Multi-Factor Authentication (MFA)</b> method (mobile app notification). Post-implementation
+                        results demonstrated immediate and substantial value: the volume of password
+                        reset tickets dropped by <b>71% within 30 days.</b> This success directly translated into
+                        increased IT operational efficiency, allowing the helpdesk to reallocate significant
+                        resources to higher-value technical tasks.
+                    </p>
+
+                    <h2>Project Overview</h2>
+
+                    <h3>The Challenge</h3>
+                    <p>CloudTech, a rapidly growing technology firm, faced significant operational challenges due to
+                        frequent password-related calls to its IT helpdesk. Analysis
+                        showed that over 35% of all daily support tickets were for password reset requests, consuming
+                        valuable time and delaying responses to critical technical issues.</p>
+
+                    <h3>The Goal</h3>
+                    <p>The primary objective of this project is to implement <b>Self-Service Password Reset (SSPR)</b>
+                        using Microsoft Entra ID to enhance identity
+                        security, enforce a strong authentication method, and drastically reduce helpdesk operational
+                        load.</p>
+
+
+                    <h3>Configuration of MFA and SSPR</h3>
+                    <p>Due to the limitation in Microsoft Entra ID that restricts enabling Self-Service Password Reset
+                        (SSPR) to a single security group,
+                        a best practice is to create a master container group <b>(SSPR-Group)</b> and add the desired
+                        security groups <b>(HR and Marketing)</b> as members.
+                        This allows you to target multiple groups with one SSPR policy. The HR and Marketing groups will
+                        be used as test groups for SSPR instead of all users in the organisation
+                        allowing for rigorous testing and user feedback before a full organisational rollout.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/ssprmembers.png" alt="SSPR-Group members"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            SSPR-Group members
+                        </figcaption>
+                    </figure>
+
+                    <p>Next, enable SSPR for a selected group and choose the SSPR-Group created earlier. </p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/selectssprgroup.png" alt="SSPR-Group selected"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            SSPR-Group selected
+                        </figcaption>
+                    </figure>
+
+                    <p>Microsoft Authenticator is enabled from Authentication methods and the SSPR group selected.</p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/authmethod.png" alt="Microsoft Authenticator Enabled"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Microsoft Authenticator Enabled
+                        </figcaption>
+                    </figure>
+
+                    <p>SSPR is configured to require users to register the authentication method upon their next login.
+                    </p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/authregister.png" alt="Force users to register"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Force users to register with Microsoft Authenticator
+                        </figcaption>
+                    </figure>
+
+                    <h3>Testing of MFA and SSPR</h3>
+
+                    <p>To test the Self-Service Password Reset (SSPR) configuration, we must first ensure the test user,
+                        Chloe Holmes (a member of the HR group), has the necessary
+                        license and then verify that she is correctly prompted to set up her authentication method upon
+                        first login. Assign a Microsoft license to her in the Microsoft 365 admin center.
+                    </p>
+
+                    <p>Next, open a private browser window and navigate to <b>portal.office.com </b> and login using
+                        Chloe Holmes' email and password assigned to her in Active Directory. Upon successful initial
+                        authentication,
+                        the system will immediately display a prompt requiring her to set up an authentication method
+                        using the Microsoft Authenticator.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/verify.png" alt="Prompt to setup MFA"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Prompt to setup MFA
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/authapp.png" alt="Prompt to download app"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Prompt to download and install Microsoft Authenticator app
+                        </figcaption>
+                    </figure>
+
+                    <p>Proceed through the setup screens to setup and enable MFA using the Microsoft Authenticator.</p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/verify3.png" alt="Successful setup"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Successful setup of Microsoft Authenticator
+                        </figcaption>
+                    </figure>
+
+                    <p>Log out Chloe Holmes from the Microsoft 365 portal and open a new private window and log back
+                        into the office portal but choose the <b>Forgot password</b>
+                        option on the password entry screen. You will be prompted to enter your email and the security
+                        characters (CAPTCHA) to prove you are not a robot and the system will require you to verify
+                        your identity using Microsoft Authenticator.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/forgot password.png" alt="Enter email and captcha"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Enter email and captcha
+                        </figcaption>
+                    </figure>
+
+                    <p>Next, choose I forgot my password option</p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/forgot password2.png" alt="Forgot password"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Forgot password
+                        </figcaption>
+                    </figure>
+
+                    <p>Next, choose to either approve a notification from the authenticator app or enter a code from the
+                        authenticator app</p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/forgot password3.png" alt="Approve notification or enter code"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Approve notification or enter code
+                        </figcaption>
+                    </figure>
+
+                    <p>Finally, choose enter your new password and confirm new password to rest the password.</p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/forgot password4.png" alt="Enter new password"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Enter new password
+                        </figcaption>
+                    </figure>
+
+                    <p>If you get an error stating <b>"Your password does not meet the complexity requirements"</b>,
+                        especially if you change the password again within 24 hrs, it means
+                        Password policies in the on-premises AD DS environment may prevent password resets from being
+                        correctly processed. In that case, open the <b>Default Domain Policy GPO >
+                            Computer Configuration > Policies > Windows Settings > Security Settings > Account Policies
+                            > Password Policy</b> and
+                        change the <b>minimum password age from 1 day to 0 days.</b> This allows multiple SSPR attempts
+                        during the testing.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/min password.png" alt="Change minimum password age"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Change minimum password age from 1 day to 0 days
+                        </figcaption>
+                    </figure>
+
+                    <p>If everything goes well, the password should be reset successfully.</p>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/password reset.png" alt="Password reset successful"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Password reset successful
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/reset.png" alt="Confirmation of password reset"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Confirmation of password reset
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/audit log.png" alt="Audit logs"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Audit logs confirming password reset
+                        </figcaption>
+                    </figure>
+
+                    <p>The new password immediately synchronised aacross Microsoft 365 service as well as Active
+                        Directory since password writeback was enabled.</p>
+
+                    <h3>Quantitative Results</h3>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/sspr/finalresults.png" alt="Results Table"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            A table showing the impact of SSPR before and after implementation
+                        </figcaption>
+                    </figure>
+
+                    <h2>Conclusion</h2>
+                    <p>The implementation of <b>Self-Service Passwor Reset (SSPR)</b> delivered immediate and measurable
+                        value to CloudTech. The project not only successfully hardened the organisation's
+                        identity security by enforcing Multi-Factor Authentication (MFA) at the point of greatest
+                        vulnerability (the password reset), but it also directly
+                        enhanced operational efficiency. By automating the password reset process, the IT helpdesk was
+                        able to reallocate significant time and resources from
+                        mundane password support to higher-value technical tasks, validating SSPR as a critical
+                        component of CloudTech's long-term infrastructure strategy.</p>
+
+                    <!-- Footer Nav -->
+                    <div class="project-footer-nav">
+                        <a href="../index.html#projects" class="nav-link-block">
+                            <span class="nav-sub">Return</span>
+                            <span class="nav-title"><i class="fas fa-arrow-left"></i> All Projects</span>
+                        </a>
+                        <a href="dhcp.html" class="nav-link-block next">
+                            <span class="nav-sub">Next Case Study</span>
+                            <span class="nav-title">DHCP Deployment <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="brand">Oscar<span>Mireku</span></div>
+            <p>&copy; 2025 Oscar Mireku. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+
+</html>

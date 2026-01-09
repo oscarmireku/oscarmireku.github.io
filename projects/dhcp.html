@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHCP Deployment with Custom VNet Integration in VMWare | Oscar Mireku</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="project-page">
+    <header id="header">
+        <nav class="navbar">
+            <div class="logo">Oscar<span>Mireku</span></div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact" class="btn-primary">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Lively Full-Width Hero -->
+        <div class="project-hero-section">
+            <img src="../images/dhcp/topology.png" class="project-hero-bg" alt="DHCP Deployment Topology">
+            <div class="project-hero-overlay">
+                <h1>DHCP Deployment with Custom VNet Integration in VMWare</h1>
+                <p style="margin-bottom: 5rem;"> </p>
+            </div>
+        </div>
+
+        <section class="section" style="padding-top: 0;">
+            <div class="container project-content-wrapper">
+                <div class="detailed-content">
+
+                    <h2>Executive Summary</h2>
+                    <p>This project demonstrates the implementation of a hybrid lab environment for CloudTech, where end
+                        devices
+                        dynamically obtain IP addresses from a centralized Windows Server DHCP hosted on a separate
+                        virtual machine. The setup was achieved using VMware
+                        Workstation's Custom VMnet5 to create an internal network that bridges both VMs securely.</p>
+
+                    <h2>Topology Reference</h2>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/topology.png" alt="Network Topology"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Network Topology of CloudTech
+                        </figcaption>
+                    </figure>
+
+                    <h2>Details</h2>
+
+                    <h3>Setting Up The Custom Vnet (VMNet5)</h3>
+                    <p>The custom VNet acts as the physical link between the two Virtual Machines (Windows Server with
+                        DHCP role and EVE-NG which has the routers,
+                        switches and end devices). We will use the 192.168.50.0/24 network for this bridge.</p>
+
+                    <ul>
+                        <li><b>Configure VMnet5:</b> In VMware's Virtual Network Editor, create a new, dedicated
+                            Host-Only virtual network (VMnet5).
+                            Disable the built-in DHCP service for this VNet.
+                            <figure style="margin: 2rem 0;">
+                                <img src="../images/dhcp/vneteditor.png" alt="VMware Virtual Network Editor"
+                                    style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                                <figcaption
+                                    style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                                    VMware Virtual Network Editor
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li><b>Assign Server IP: </b>Add a network adapter to the Windows Server VM and connect it
+                            to VMnet5. Configure the adapter with the static IP address: 192.168.50.5/24.
+                            <figure style="margin: 2rem 0;">
+                                <img src="../images/dhcp/dcsettings.png" alt="Select VMnet5"
+                                    style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                                <figcaption
+                                    style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                                    Select Custom: Specific virtual network - VMnet5 (Host-Only)
+                                </figcaption>
+                            </figure>
+                            <figure style="margin: 2rem 0;">
+                                <img src="../images/dhcp/ethernet1.png" alt="Static IP"
+                                    style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                                <figcaption
+                                    style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                                    Assign Static IP to Windows Server
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li>Add a network adapter to the EVE-NG VM and connect it to VMnet5. We will assign router
+                            R0's
+                            g0/0 interface with ip 192.168.50.1/24.
+                        </li>
+
+                    </ul>
+
+
+
+                    <h3>Configure DHCP Scopes on Windows Server</h3>
+                    <p>The Windows Server must be configured with scopes for all four client subnets in the diagram.
+                        The
+                        "Router" option in each scope must match the corresponding router interface IP
+                        as seen below.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/dhcpscope.png" alt="DHCP Scopes"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            DHCP Scopes to be assigned
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/hr.png" alt="HR Scope"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            HR scope configured on Windows Server
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/sales.png" alt="Sales Scope"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            SALES scope configured on Windows Server
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/it.png" alt="IT Scope"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            IT scope configured on Windows Server
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/marketing.png" alt="Marketing Scope"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Marketing scope configured on Windows Server
+                        </figcaption>
+                    </figure>
+
+
+
+                    <h3>Topology Build and Configuration</h3>
+                    <p>Before we can test DHCP, the routers need to know the path to the Windows Server. We start by
+                        physically connecting the EVE-NG lab to the external VMnet5 network as seen in the topology.
+                        Then, to make the entire network function seamlessly, we will configure OSPF. This protocol
+                        will
+                        handle the complex route discovery process, ensuring that every router
+                        automatically learns how to reach the DHCP Server and all client subnets. Configuring OSPF
+                        directly on the interface is a modern, explicit approach that prevents accidental
+                        advertisement of unintended networks.
+                    </p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/R0.png" alt="R0 Config"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Configuration for R0
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/edge1.png" alt="Edge1 Config"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Configuration for EdgeRouter_1
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/edge2.png" alt="Edge2 Config"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Configuration for EdgeRouter_2
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/r1.png" alt="R1 Config"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Configuration for R1 with DHCP Relay
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/r2.png" alt="R2 Config"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Configuration for R2 with DHCP Relay
+                        </figcaption>
+                    </figure>
+
+                    <h3>Verification of Routes</h3>
+                    <p>Before a client can successfully get an IP address, we must confirm that the access routers
+                        R1
+                        and R2 know the path back to the external Windows DHCP Server.
+                        Since we enabled OSPF on all interfaces, this should be automatic. We use the <b>show ip
+                            route</b> command on the Access Routers to verify that the path to the DHCP server's
+                        network
+                        and other routers are
+                        present in the routing table.
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/r1route.png" alt="R1 Routes"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Routes on R1
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/r2route.png" alt="R2 Routes"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Routes on R2
+                        </figcaption>
+                    </figure>
+                    </p>
+
+
+                    <h3>Verification of Client IP Assignment</h3>
+                    <p>With the DHCP Scopes configured on the Windows Server, the DHCP Relay enabled on R1 and R2
+                        and
+                        the OSPF routes confirmed, the final step is to test the
+                        dynamic IP address assignment from the perspective of an end-user device.</p>
+
+                    <p>To trigger the DHCP process on a client PC, access the console for one of the end devices and
+                        execute the <b>ip dhcp</b> command to send a DHCP request.
+                        Upon successful execution, the client should display an output confirming that an IP address
+                        has
+                        been acquired from the remote DHCP server.
+                        The client should receive an IP address in its respective subnet and should be able to ping
+                        other PCs in the different subnets.
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/hrpc.png" alt="HR PC DHCP"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            DHCP on HR PC
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/salespc.png" alt="Sales PC DHCP"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            DHCP on Sales PC
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/itpc.png" alt="IT PC DHCP"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            DHCP on IT PC
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/marketingpc.png" alt="Marketing PC DHCP"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            DHCP on Marketing PC
+                        </figcaption>
+                    </figure>
+                    </p>
+
+                    <h3>Verification of Address Leases</h3>
+
+                    <p>To confirm that the external Windows Server is actively managing the IPs for the simulated
+                        lab,
+                        we can inspect the address leases directly in the DHCP Management Console.
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/hrscope.png" alt="HR Leases"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Address leases on HR scope
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/salesscope.png" alt="Sales Leases"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Address leases on Sales scope
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/itscope.png" alt="IT Leases"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Address leases on IT scope
+                        </figcaption>
+                    </figure>
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/dhcp/marketingscope.png" alt="Marketing Leases"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Address leases on Marketing scope
+                        </figcaption>
+                    </figure>
+                    </p>
+
+                    <h3>Conclusion</h3>
+                    <p>This project successfully implemented a robust hybrid network solution, validating key skills
+                        in
+                        virtualization and network services.
+                        By integrating a <b>Windows Server DHCP service</b> across a dedicated VMware Custom VNet
+                        and a
+                        complex EVE-NG topology,
+                        we achieved centralized IP management. Core accomplishments included configuring Layer 3
+                        DHCP
+                        Relay on access routers
+                        R1 and R2, deploying <b>OSPF dynamic routing</b> for full reachability, and leveraging the
+                        VNet
+                        bridge for network isolation.
+                        This centralized design enhances security and auditing by eliminating rogue DHCP risks and
+                        demonstrates proficiency in building and securing scalable enterprise infrastructure.</p>
+
+                    <!-- Footer Nav -->
+                    <div class="project-footer-nav">
+                        <a href="sspr.html" class="nav-link-block">
+                            <span class="nav-sub">Previous</span>
+                            <span class="nav-title"><i class="fas fa-arrow-left"></i> SSPR Setup</span>
+                        </a>
+                        <a href="entraid.html" class="nav-link-block next">
+                            <span class="nav-sub">Next Case Study</span>
+                            <span class="nav-title">Hybrid Identity <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="brand">Oscar<span>Mireku</span></div>
+            <p>&copy; 2025 Oscar Mireku. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+
+</html>
