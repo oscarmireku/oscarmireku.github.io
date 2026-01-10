@@ -35,7 +35,7 @@
 <body class="project-page">
     <header id="header">
         <nav class="navbar">
-            <div class="logo">Oscar<span>Mireku</span></div>
+            <a href="../index.html" class="logo">Oscar<span>Mireku</span></a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../index.html#projects">Projects</a></li>
@@ -50,9 +50,7 @@
             <img src="../images/dhcp/topology.png" class="project-hero-bg" alt="DHCP Deployment Topology">
             <div class="project-hero-overlay">
                 <h1>DHCP Deployment with Custom VNet Integration in VMWare</h1>
-                <button class="share-btn" onclick="shareProject()">
-                    <i class="fas fa-share-alt"></i> Share Project
-                </button>
+                <p style="margin-bottom: 5rem;"> </p>
             </div>
         </div>
 
@@ -60,7 +58,12 @@
             <div class="container project-content-wrapper">
                 <div class="detailed-content">
 
-                    <h2>Executive Summary</h2>
+                    <div class="project-header">
+                        <h2>Executive Summary</h2>
+                        <button class="share-btn" onclick="shareProject()">
+                            <i class="fas fa-share-alt"></i> Share Project
+                        </button>
+                    </div>
                     <p>This project demonstrates the implementation of a hybrid lab environment for CloudTech, where end
                         devices
                         dynamically obtain IP addresses from a centralized Windows Server DHCP hosted on a separate

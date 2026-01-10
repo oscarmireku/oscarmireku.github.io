@@ -112,7 +112,9 @@ h4 {
 .contact-wrapper,
 #header,
 .about-content-card,
-.stat-card {
+.stat-card,
+.cert-card,
+.lab-card {
     color: var(--text-main);
 }
 
@@ -125,7 +127,9 @@ h4 {
 .contact-wrapper h2,
 .about-content-card h2,
 .stat-card h2,
-.stat-card h3 {
+.stat-card h3,
+.cert-card h3,
+.lab-card h3 {
     color: var(--text-main);
 }
 
@@ -316,6 +320,7 @@ h4 {
 .hero .highlight {
     background: linear-gradient(to right, #38bdf8, #818cf8);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: none;
 }
@@ -559,6 +564,7 @@ h4 {
     font-weight: 800;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -712,47 +718,91 @@ h4 {
     gap: 2rem;
 }
 
+/* Social Feed Style News Cards */
 .news-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    padding: 2rem;
-    border-radius: var(--radius);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-left: 4px solid var(--secondary);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    transition: var(--transition);
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .news-card:hover {
-    background: rgba(255, 255, 255, 0.95);
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.news-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 0.75rem;
+}
+
+.news-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.news-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.news-author {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 0.95rem;
 }
 
 .news-date {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
-    margin-bottom: 0.5rem;
+    margin: 0;
 }
 
 .news-card h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+    line-height: 1.4;
 }
 
 .news-card p {
     color: var(--text-muted);
     font-size: 0.95rem;
-    margin-bottom: 1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
 }
 
 .read-more {
-    font-size: 0.9rem;
-    color: var(--primary);
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #f1f5f9;
+    color: #0077b5;
+    /* LinkedIn Blue */
     font-weight: 600;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.read-more:hover {
+    background-color: #e2e8f0;
+    text-decoration: none;
 }
 
 
@@ -1367,13 +1417,11 @@ a.project-card .btn-link {
     }
 }
 
-/* Share Button */
+/* Share Button (Updated for Content Area) */
 .share-btn {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: var(--white);
-    padding: 0.75rem 1.75rem;
+    padding: 0.5rem 1.5rem;
     border-radius: 2rem;
     font-weight: 600;
     cursor: pointer;
@@ -1381,15 +1429,16 @@ a.project-card .btn-link {
     align-items: center;
     gap: 0.5rem;
     transition: var(--transition);
-    font-size: 1rem;
-    margin-top: 1.5rem;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    font-size: 0.95rem;
+    border: none;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+    margin-top: 0;
+    /* Reset margin since it's in a flex container now */
 }
 
 .share-btn:hover {
-    background: rgba(255, 255, 255, 0.35);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
 }
 
 .share-btn:active {
@@ -1397,5 +1446,154 @@ a.project-card .btn-link {
 }
 
 .share-btn i {
+    font-size: 1rem;
+}
+
+/* Project Header Container */
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.project-header h2 {
+    margin-bottom: 0;
+}
+
+/* Certifications Section */
+.certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.cert-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 1.0rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.cert-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--secondary);
+}
+
+.cert-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    background: rgba(14, 165, 233, 0.1);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.cert-info h3 {
     font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+}
+
+.cert-issuer {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cert-date {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+}
+
+.cert-link {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.cert-link:hover {
+    text-decoration: underline;
+}
+
+/* Home Lab Section */
+.homelab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.lab-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.lab-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.lab-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem;
+}
+
+.lab-header i {
+    font-size: 1.5rem;
+    color: var(--secondary);
+}
+
+.lab-header h3 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+}
+
+.lab-list {
+    list-style: none;
+    padding: 0;
+}
+
+.lab-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.lab-list li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--secondary);
+    font-weight: bold;
 }

@@ -35,7 +35,7 @@
 <body class="project-page">
     <header id="header">
         <nav class="navbar">
-            <div class="logo">Oscar<span>Mireku</span></div>
+            <a href="../index.html" class="logo">Oscar<span>Mireku</span></a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../index.html#projects">Projects</a></li>
@@ -51,16 +51,19 @@
                 alt="Hybrid Identity Architecture">
             <div class="project-hero-overlay">
                 <h1>Hybrid Identity with Microsoft Entra ID Connect</h1>
-                <button class="share-btn" onclick="shareProject()">
-                    <i class="fas fa-share-alt"></i> Share Project
-                </button>
+                <p style="margin-bottom: 5rem;"> </p>
             </div>
         </div>
 
         <section class="section" style="padding-top: 0;">
             <div class="container project-content-wrapper">
                 <div class="detailed-content">
-                    <h2>Executive Summary</h2>
+                    <div class="project-header">
+                        <h2>Executive Summary</h2>
+                        <button class="share-btn" onclick="shareProject()">
+                            <i class="fas fa-share-alt"></i> Share Project
+                        </button>
+                    </div>
                     <p>This project documents the successful deployment and configuration of <b>Microsoft Entra ID
                             Connect (formerly Azure AD Connect)</b> to establish
                         a unified Hybrid Identity solution for a mid-sized enterprise environment. The primary goal was

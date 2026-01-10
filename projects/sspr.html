@@ -35,7 +35,7 @@
 <body class="project-page">
     <header id="header">
         <nav class="navbar">
-            <div class="logo">Oscar<span>Mireku</span></div>
+            <a href="../index.html" class="logo">Oscar<span>Mireku</span></a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../index.html#projects">Projects</a></li>
@@ -50,16 +50,19 @@
             <img src="../images/sspr/main.jpg" class="project-hero-bg" alt="SSPR Architecture">
             <div class="project-hero-overlay">
                 <h1>Implementing Secure Self-Service Password Reset in Microsoft Entra ID</h1>
-                <button class="share-btn" onclick="shareProject()">
-                    <i class="fas fa-share-alt"></i> Share Project
-                </button>
+                <p style="margin-bottom: 5rem;"> </p>
             </div>
         </div>
 
         <section class="section" style="padding-top: 0;">
             <div class="container project-content-wrapper">
                 <div class="detailed-content">
-                    <h2>Executive Summary</h2>
+                    <div class="project-header">
+                        <h2>Executive Summary</h2>
+                        <button class="share-btn" onclick="shareProject()">
+                            <i class="fas fa-share-alt"></i> Share Project
+                        </button>
+                    </div>
                     <p>CloudTech implemented <b>Self-Service Password Reset (SSPR)</b> using Microsoft Entra ID to
                         address a critical operational inefficiency: high volume
                         of password-related helpdesk tickets. The project was executed with a strong focus on security,

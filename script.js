@@ -67,17 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // However, padding-top on body or section usually fixes this.
     // Let's add a robust handler just in case.
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const headerOffset = 80;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-    
+
                 window.scrollTo({
                     top: offsetPosition,
                     behavior: "smooth"
@@ -85,4 +85,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+
+    // 5. Dynamic News Feed
+    const newsGrid = document.querySelector('.news-grid');
+    if (newsGrid) {
+        fetch('posts.json')
+            .then(response => response.json())
+            .then(data => {
+                newsGrid.innerHTML = data.map(post => `
+                    <article class="news-card scroll-reveal">
+                        <div class="news-header">
+                            <img src="${post.avatar}" alt="${post.author}" class="news-avatar">
+                            <div class="news-meta">
+                                <span class="news-author">${post.author}</span>
+                                <span class="news-date">${post.date} • <i class="fab fa-linkedin"></i></span>
+                            </div>
+                        </div>
+                        <h3>${post.title}</h3>
+                        <p>${post.content}</p>
+                        <a href="${post.link}" target="_blank" class="read-more">View on LinkedIn <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: 8px;"></i></a>
+                    </article>
+                `).join('');
+
+                // Re-attach observer to new elements
+                const newReveals = newsGrid.querySelectorAll('.scroll-reveal');
+                newReveals.forEach(el => observer.observe(el));
+            })
+            .catch(error => console.error('Error loading posts:', error));
+    }
+
 });
