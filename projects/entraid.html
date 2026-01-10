@@ -5,6 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hybrid Identity with Microsoft Entra ID Connect | Oscar Mireku</title>
+    <meta name="description"
+        content="A detailed case study on implementing Hybrid Identity using Microsoft Entra ID Connect to synchronize local Active Directory to the cloud.">
+    <meta name="keywords"
+        content="Microsoft Entra ID Connect, Hybrid Identity, Active Directory, Azure AD, Single Sign-On, SSO, Identity Management">
+    <meta name="author" content="Oscar Mireku">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://oscarmireku.github.io/projects/entraid.html">
+    <meta property="og:title" content="Hybrid Identity with Microsoft Entra ID Connect">
+    <meta property="og:description"
+        content="A detailed case study on implementing Hybrid Identity using Microsoft Entra ID Connect to synchronize local Active Directory to the cloud.">
+    <meta property="og:image" content="https://oscarmireku.github.io/images/entraid/entra_sync_diagram.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oscarmireku.github.io/projects/entraid.html">
+    <meta property="twitter:title" content="Hybrid Identity with Microsoft Entra ID Connect">
+    <meta property="twitter:description"
+        content="A detailed case study on implementing Hybrid Identity using Microsoft Entra ID Connect.">
+    <meta property="twitter:image" content="https://oscarmireku.github.io/images/entraid/entra_sync_diagram.png">
+
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +51,9 @@
                 alt="Hybrid Identity Architecture">
             <div class="project-hero-overlay">
                 <h1>Hybrid Identity with Microsoft Entra ID Connect</h1>
-                <p style="margin-bottom: 5rem;"> </p>
+                <button class="share-btn" onclick="shareProject()">
+                    <i class="fas fa-share-alt"></i> Share Project
+                </button>
             </div>
         </div>
 
@@ -307,6 +331,30 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script>
+        function shareProject() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Hybrid Identity with Microsoft Entra ID Connect',
+                    text: 'Check out this project by Oscar Mireku on Hybrid Identity implementation.',
+                    url: window.location.href,
+                })
+                    .then(() => console.log('Successful share'))
+                    .catch((error) => console.log('Error sharing', error));
+            } else {
+                navigator.clipboard.writeText(window.location.href).then(function () {
+                    const btn = document.querySelector('.share-btn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Link Copied!';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2000);
+                }, function (err) {
+                    console.error('Async: Could not copy text: ', err);
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>
