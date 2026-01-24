@@ -1597,3 +1597,112 @@ a.project-card .btn-link {
     color: var(--secondary);
     font-weight: bold;
 }
+
+/* Mobile Optimization for Project Detail Pages */
+@media (max-width: 768px) {
+    .project-hero-section {
+        height: 50vh;
+        min-height: 400px;
+    }
+
+    .project-hero-overlay {
+        padding: 4rem 1.5rem 3rem;
+    }
+
+    .project-hero-overlay h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+
+    .project-hero-meta {
+        font-size: 0.9rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .project-hero-meta span {
+        padding: 0.4rem 1rem;
+    }
+
+    .project-content-wrapper {
+        margin-top: -60px;
+        padding-bottom: 3rem;
+    }
+
+    .detailed-content {
+        padding: 2.5rem 1.5rem;
+        border-radius: 1.5rem;
+    }
+
+    .detailed-content h2 {
+        font-size: 1.6rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .detailed-content h2::before {
+        height: 28px;
+    }
+
+    .detailed-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .detailed-content p {
+        font-size: 1.05rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .share-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem;
+    }
+
+    /* Adjust images margin in content */
+    figure {
+        margin: 1.5rem 0 !important;
+    }
+
+    .detail-gallery {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 3rem;
+    }
+    
+    .project-footer-nav {
+        padding: 2rem;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 4rem;
+    }
+    
+    .nav-link-block {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-link-block.next {
+        text-align: center;
+    }
+    
+    .nav-title {
+        justify-content: center;
+    }
+    
+    .nav-link-block.next .nav-title {
+        flex-direction: row; /* reset direction for stacked mobile view */
+        justify-content: center;
+    }
+    
+    .nav-link-block:hover {
+        transform: translateY(-5px);
+    }
+}
