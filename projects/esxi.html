@@ -110,13 +110,21 @@
                             parity data allows the system to remain operational without data loss.</li>
                     </ul>
 
-
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/esxi/ssa.png" alt="Smart Storage Administrator"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            HP Smart Storage Administrator (SSA) showing the two logical drives: the SSD boot volume
+                            (RAID 0) and the main data array (RAID 5).
+                        </figcaption>
+                    </figure>
 
                     <h3>Implementation Strategy</h3>
                     <p>The project involves several key phases:</p>
                     <ul>
-                        <li><b>Hardware Preparation:</b> Upgrading RAM to 128GB and configuring RAID 5 storage for
-                            redundancy.</li>
+                        <li><b>Hardware Preparation:</b> Configuring RAID 0 on the SSD and RAID 5 on the mechanical
+                            drives.</li>
                         <li><b>ESXi Installation:</b> Booting from a custom ISO and installing the hypervisior on the
                             bare metal.</li>
                         <li><b>Network Configuration:</b> Setting up vSwitches, Port Groups, and VLANs to segregate
