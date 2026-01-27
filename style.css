@@ -1628,6 +1628,19 @@ a.project-card .btn-link {
         justify-content: center;
         align-items: center;
     }
+
+    .homelab-status-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+}
+
+/* Homelab Status Grid */
+.homelab-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
 /* Mobile Optimization for Project Detail Pages */
