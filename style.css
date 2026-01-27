@@ -129,7 +129,8 @@ h4 {
 .stat-card h2,
 .stat-card h3,
 .cert-card h3,
-.lab-card h3 {
+.lab-card h3,
+.about-content-card h3 {
     color: var(--text-main);
 }
 
