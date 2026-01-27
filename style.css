@@ -1611,6 +1611,25 @@ a.project-card .btn-link {
     font-weight: bold;
 }
 
+/* Homelab Action Button */
+.homelab-action {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+@media (max-width: 600px) {
+    .homelab-action {
+        margin-top: 2rem;
+    }
+
+    .homelab-action .btn-secondary {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 /* Mobile Optimization for Project Detail Pages */
 @media (max-width: 768px) {
     .project-hero-section {
