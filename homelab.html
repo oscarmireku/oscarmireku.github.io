@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homelab Documentation | Oscar Mireku</title>
+    <meta name="description"
+        content="Detailed documentation of my homelab infrastructure including network topology, hardware, and services.">
+    <meta name="author" content="Oscar Mireku">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://oscarmireku.github.io/homelab.html">
+    <meta property="og:title" content="Homelab Documentation">
+    <meta property="og:description"
+        content="Detailed documentation of my homelab infrastructure including network topology, hardware, and services.">
+    <meta property="og:image" content="https://oscarmireku.github.io/images/homelab/topology.png">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="project-page">
+    <header id="header">
+        <nav class="navbar">
+            <a href="index.html" class="logo">Oscar<span>Mireku</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#contact" class="btn-primary">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <div class="project-hero-section" style="height: 40vh; min-height: 300px;">
+            <div class="project-hero-overlay"
+                style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); opacity: 1;">
+                <h1 style="margin-bottom: 0;">Homelab Documentation</h1>
+            </div>
+        </div>
+
+        <section class="section" style="padding-top: 4rem;">
+            <div class="container project-content-wrapper">
+                <div class="detailed-content">
+
+                    <h2>Network Topology</h2>
+                    <p>Below is the current network topology of my homelab environment, featuring enterprise-grade
+                        hardware from Cisco and HPE.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="images/homelab/topology.png" alt="Homelab Network Topology"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Current Network Infrastructure Diagram
+                        </figcaption>
+                    </figure>
+
+                    <div class="homelab-status-grid"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+                        <div class="status-column">
+                            <h3 style="color: var(--secondary); margin-bottom: 1rem;"><i
+                                    class="fas fa-check-circle"></i> Currently Implemented</h3>
+                            <ul style="list-style: none; padding-left: 0;">
+                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
+                                        class="fas fa-check"
+                                        style="color: var(--secondary); margin-right: 10px; font-size: 0.8rem;"></i>
+                                    Cisco Routing/Switching</li>
+                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
+                                        class="fas fa-check"
+                                        style="color: var(--secondary); margin-right: 10px; font-size: 0.8rem;"></i>
+                                    ESXi Hypervisor</li>
+                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
+                                        class="fas fa-check"
+                                        style="color: var(--secondary); margin-right: 10px; font-size: 0.8rem;"></i>
+                                    Windows Server 2022</li>
+                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
+                                        class="fas fa-check"
+                                        style="color: var(--secondary); margin-right: 10px; font-size: 0.8rem;"></i>
+                                    Ubuntu</li>
+                            </ul>
+                        </div>
+
+                        <div class="status-column">
+                            <h3 style="color: #f59e0b; margin-bottom: 1rem;"><i class="fas fa-flask"></i> In
+                                Development/Testing</h3>
+                            <ul style="list-style: none; padding-left: 0;">
+                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
+                                        class="fas fa-spinner fa-spin"
+                                        style="color: #f59e0b; margin-right: 10px; font-size: 0.8rem;"></i> Automated
+                                    configuration with Ansible</li>
+                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
+                                        class="fas fa-spinner fa-spin"
+                                        style="color: #f59e0b; margin-right: 10px; font-size: 0.8rem;"></i> pfSense
+                                    Firewall integration</li>
+                                <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
+                                        class="fas fa-spinner fa-spin"
+                                        style="color: #f59e0b; margin-right: 10px; font-size: 0.8rem;"></i> LibreNMS
+                                    monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="project-footer-nav" style="margin-top: 4rem;">
+                        <a href="index.html" class="nav-link-block">
+                            <span class="nav-sub">Return</span>
+                            <span class="nav-title"><i class="fas fa-arrow-left"></i> Home</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="brand">Oscar<span>Mireku</span></div>
+            <p>&copy; 2025 Oscar Mireku. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
