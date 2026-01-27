@@ -60,6 +60,13 @@
                         </figcaption>
                     </figure>
 
+                    <style>
+                        /* Fix for double checkmarks */
+                        .homelab-status-grid ul li::before {
+                            content: none !important;
+                        }
+                    </style>
+
                     <div class="homelab-status-grid"
                         style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
                         <div class="status-column">
@@ -73,7 +80,7 @@
                                 <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
                                         class="fas fa-check"
                                         style="color: var(--secondary); margin-right: 10px; font-size: 0.8rem;"></i>
-                                    ESXi Hypervisor</li>
+                                    ESXi Hypervisor (224GB RAM, 5TB Storage)</li>
                                 <li style="margin-bottom: 0.5rem; display: flex; align-items: center;"><i
                                         class="fas fa-check"
                                         style="color: var(--secondary); margin-right: 10px; font-size: 0.8rem;"></i>
