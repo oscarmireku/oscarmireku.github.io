@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Identity Modernization: Active Directory & Automation | Oscar Mireku</title>
+    <meta name="description"
+        content="Learn how to modernize enterprise identity management with Active Directory and automation. Step-by-step guide with real-world results.">
+    <meta name="keywords"
+        content="Active Directory, PowerShell, Automation, Identity Management, Enterprise Identity, GPO, Domain Controller">
+    <meta name="author" content="Oscar Mireku">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://oscarmireku.github.io/projects/activedirectory.html">
+    <meta property="og:title" content="Enterprise Identity Modernization: Active Directory & Automation">
+    <meta property="og:description"
+        content="Learn how to modernize enterprise identity management with Active Directory and automation.">
+    <meta property="og:image" content="https://oscarmireku.github.io/images/ad/banner.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oscarmireku.github.io/projects/activedirectory.html">
+    <meta property="twitter:title" content="Enterprise Identity Modernization: Active Directory & Automation">
+    <meta property="twitter:description"
+        content="Learn how to modernize enterprise identity management with Active Directory and automation.">
+    <meta property="twitter:image" content="https://oscarmireku.github.io/images/ad/banner.jpg">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="project-page">
+    <header id="header">
+        <nav class="navbar">
+            <a href="../index.html" class="logo">Oscar<span>Mireku</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact" class="btn-primary">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Lively Full-Width Hero -->
+        <div class="project-hero-section">
+            <img src="../images/ad/banner.jpg" class="project-hero-bg" alt="Active Directory & Automation">
+            <div class="project-hero-overlay">
+                <h1>Enterprise Identity Modernization: Active Directory & Automation</h1>
+                <p style="margin-bottom: 5rem;"> </p>
+            </div>
+        </div>
+
+        <section class="section" style="padding-top: 0;">
+            <div class="container project-content-wrapper">
+                <div class="detailed-content">
+                    <div class="project-header">
+                        <h2>Project Background</h2>
+                        <button class="share-btn" onclick="shareProject()">
+                            <i class="fas fa-share-alt"></i> Share Project
+                        </button>
+                    </div>
+                    <p><b>CloudTech</b>, a rapidly growing mid-sized technology firm, was facing significant operational
+                        bottlenecks due to a decentralized IT infrastructure. I was tasked with migrating their
+                        environment from a peer-to-peer Workgroup model to a centralized <b>Windows Server 2022 Active
+                            Directory domain</b>.
+                    </p>
+                    <p>By deploying a "Domain First" architecture and leveraging <b>PowerShell automation</b>, I reduced
+                        the
+                        user onboarding time by 98% and eliminated security variances. The implementation of strict
+                        <b>Group Policy Objects (GPO)</b> ensured that CloudTech achieved 100% compliance with
+                        industry-standard password policies and data access controls.
+                    </p>
+
+                    <h2>Project Overview</h2>
+
+                    <h3>Client Profile</h3>
+                    <ul>
+                        <li><b>Client:</b> CloudTech Inc</li>
+                        <li><b>Industry:</b> Technology Services</li>
+                        <li><b>Size:</b> 50+ Employees</li>
+                        <li><b>Environment:</b> Mixed Windows environment, previously unmanaged</li>
+                    </ul>
+
+                    <h3>The Challenge</h3>
+                    <p>As CloudTech expanded from a startup to a mid-sized operation, their legacy IT processes became
+                        unsustainable. The company relied on a "Workgroup" environment where user accounts were managed
+                        locally on each machine.</p>
+                    <p>This lack of centralization created three critical issues:</p>
+                    <ul>
+                        <li><b>Security Risks:</b> Users set weak passwords (e.g., "Password123") with no expiration
+                            policy.</li>
+                        <li><b>Data Insecurity:</b> Sensitive HR and Sales data was stored in open folders accessible to
+                            anyone on the network.</li>
+                        <li><b>Operational Inefficiency:</b> Onboarding a single new employee took IT staff over 45
+                            minutes, requiring manual account creation on multiple devices.</li>
+                    </ul>
+
+
+                    <h3>The Solution</h3>
+                    <p>I designed and deployed a comprehensive <b>Identity and Access Management (IAM)</b> solution
+                        centered
+                        around <b>Microsoft Active Directory</b>. The solution focused on three pillars: Centralization,
+                        Automation, and Least Privilege Security.
+                    </p>
+
+                    <p><b>Infrastructure Architecture</b></p>
+                    <p>I provisioned a redundant virtualized environment on <b>VMware ESXi</b> to host the core
+                        services:</p>
+                    <ul>
+                        <li><b>DC-01 (Domain Controller):</b> Established a new Active Directory forest with a single
+                            domain
+                            (cloudtech.com) and configured DNS for proper name resolution.</li>
+                        <li><b>FS-01 (File Server):</b> A dedicated storage server for departmental data.</li>
+                    </ul>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/domain.png" alt="Active Directory Domain"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Active Directory Domain.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/architecture.jpg" alt="Active Directory Architecture"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Active Directory Architecture.
+                        </figcaption>
+                    </figure>
+
+
+
+                    <h3>Automation Strategy</h3>
+                    <p>To address the onboarding bottleneck, I rejected the manual creation of users. I developed a
+                        PowerShell automation script capable of ingesting CloudTech's HR CSV exports.</p>
+                    <p>The script logic:</p>
+                    <ul>
+                        <li>Imports user metadata (Name, Dept, Role,etc).</li>
+                        <li>Creates an Organizational Unit (OU) for each department.</li>
+                        <li>Creates a group for each department.</li>
+                        <li>Creates each user account, enables it, and assigns them to the appropriate OU and group.
+                        </li>
+                        <li>Assigns a temporary password to each user and forces a password change on first login.
+                        </li>
+                        <li><b>Result: </b>50 user created in less than 10 seconds </li>
+                    </ul>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/users.png" alt="Active Directory Users"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Active Directory Users.
+                        </figcaption>
+                    </figure>
+
+                    <p>A link to the script on GitHub can be found <a target="_blank"
+                            href="https://github.com/oscarmireku/Staff-Onboarding-Script---Powershell"
+                            rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">here</a>
+                    </p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/script.png" alt="Powershell script"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Script executed successfully, populating the directory instantly.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/adpopulated.png" alt="Directory populated with 50 users"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            AD populated with OUs and users.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/itgroup.jpg" alt="IT group showing IT Staff"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            IT group showing IT Staff for easy management and a user's properties.
+                        </figcaption>
+                    </figure>
+
+
+
+                    <h3>Role-Based Access Control (RBAC) - Drive Mapping</h3>
+                    <p>I configured Drive Mapping to ensure data isolation between departments. I utilized NTFS
+                        permissions
+                        to enforce access controls.</p>
+
+                    <p>I configured the file server (FS-01) to host department-specific data. I then created
+                        group policies to map the appropriate folders to each department's users.</p>
+
+                    <ul>
+                        <li>I created and initialised a new disk on the file server (FS-01)</li>
+                        <li>Created a root folder E:\CompanyData</li>
+                        <li>I created subfolders for each department in the root folder</li>
+                    </ul>
+
+                    <h3>Configuring Sharing</h3>
+                    <ul>
+                        <li>Right-click HR folder in CompanyData -> <b>Properties -> Sharing -> Advanced Sharing.</b>
+                        </li>
+                        <li>Check "Share this folder".</li>
+                        <li><b>Share Permissions:</b> Remove <b>"Everyone"</b>. Add the <b>HR group</b> and assign
+                            Change/Read permissions.</li>
+                        <li>Repeat the same process for the other departments</li>
+                    </ul>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/hrshare.jpg" alt="HR Share"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            HR Share permissions.
+                        </figcaption>
+                    </figure>
+
+                    <h3>Configuring NTFS Security Permissions</h3>
+                    <ul>
+                        <li>Go to the security tab of the HR folder
+                        </li>
+                        <li>Click <b>Advanced</b> and <b>disable inheritance</b> to ensure clean permissions</li>
+                        <li>Assign <b>Full Control</b> to <b>Administrators</b> and <b>Modify</b> to the <b>HR
+                                group</b>.
+                            With Modify, they can
+                            create, edit, and delete files and folders within the HR directory but cannot assign
+                            permissions
+                            to other users.</li>
+                        <li>Repeat the same process for the other department folders</li>
+                    </ul>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/ntfs.png" alt="NTFS Permissions"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            NTFS Permissions for HR.
+                        </figcaption>
+                    </figure>
+
+
+                    <h3>Configuring Group Policy</h3>
+                    <p>I configured Group Policy to map the appropriate folders to each department's users.</p>
+                    <ul>
+                        <li>Open Group Policy Management on <b>DC-01</b></li>
+                        <li>Right-click HR OU and select <b>Create a GPO in this domain, and
+                                link it here...</b></li>
+                        <li>Name the GPO <b>HR Drive Mapping</b></li>
+                        <li>Right-click the new GPO and select <b>Edit</b></li>
+                        <li>Navigate to <b>User Configuration -> Preferences -> Windows Settings -> Drive Maps</b></li>
+                        <li>Right-click <b>Drive Maps</b> and select <b>New -> Mapped Drive</b></li>
+                        <li>Under General Tab:
+                            <ul>
+                                <li><b>Action:</b> Update (Creates the drive if it doesn't exist)</li>
+                                <li><b>Drive letter:</b> H:</li>
+                                <li><b>Location:</b> \\FS-01\HR</li>
+                                <li><b>Reconnect:</b> Checked</li>
+                                <li><b>Label:</b> HR Dept Data</li>
+                            </ul>
+                        </li>
+                        <li>Under Common Tab:
+                            <ul>
+                                <li>Check <b>Item-level targeting</b> and click <b>Targeting</b></li>
+                                <li>Click <b>New Item -> Security Group</b></li>
+                                <li>Search and select the <b>HR Group</b></li>
+                                <li>The drive will only map if the user is a member of the HR group</li>
+                            </ul>
+                        </li>
+                        <li>Repeat the process for the other departments</li>
+                    </ul>
+
+
+                    <p>I logged in as a user in the HR group and verified that the drive was mapped.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/drive.jpg" alt="Drive Mapping"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Drive Mapping for HR.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/target.png" alt="Targeting"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Targeting for HR.
+                        </figcaption>
+                    </figure>
+
+
+
+                    <h3>Verification</h3>
+                    <p>To confirm the policy was active, I logged in as a user in the HR group and verified that the
+                        drive was mapped. I then logged in as a user in each of the other departments to confirm that
+                        they had the correct drive mappings.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/aramirez.jpg" alt="Password change prompt"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Password change prompt for Ava Ramirez in HR.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/gpo.png" alt="GPO"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            GPOs for each department created and linked to the OU.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/hr.png" alt="hruser"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            HR group drive mapping.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/it.png" alt="ituser"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            IT group drive mapping.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/marketing.png" alt="marketinguser"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Marketing group drive mapping.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/sales.png" alt="salesuser"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Sales group drive mapping.
+                        </figcaption>
+                    </figure>
+
+                    <h3>Configuring Password Complexity and Idle Timeout</h3>
+                    <p>Password policies are unique because they must be applied at the domain level (via the Default
+                        Domain Policy) to function correctly for all users.</p>
+
+
+                    <ul>
+                        <li>Right-click the Default Domain Policy and select Edit.</li>
+                        <li>Navigate to: <b>Computer Configuration -> Policies -> Windows Settings -> Security Settings
+                                ->
+                                Account Policies -> Password Policy</b></li>
+                        <li>Configure the password policy settings as follows:</li>
+                        <ul>
+                            <li><b>Password must meet complexity requirements:</b> Enabled</li>
+                            <li><b>Minimum password age:</b> 1 day</li>
+                            <li><b>Maximum password age:</b> 90 days</li>
+                            <li><b>Minimum password length:</b> 12 characters</li>
+                            <li><b>Enforce password history:</b> 5 passwords</li>
+                        </ul>
+                    </ul>
+
+
+
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/ad/password.png" alt="passwordpolicy"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Password policies configured.
+                        </figcaption>
+                    </figure>
+
+                    <p>To secure unattended workstations, I configured the "Interactive Logon" policy. This ensures that
+                        if an employee walks away for a coffee break, their unlocked computer doesn't become a security
+                        liability.</p>
+
+                    <ul>
+                        <li>In the same GPO Editor (Default Domain Policy), navigate to: <b>Computer Configuration ->
+                                Policies -> Windows Settings -> Security Settings -> Local Policies -> Security
+                                Options</b></li>
+                        <li><b>Locate the policy:</b> Interactive logon: Machine inactivity limit.</li>
+                        <li>Set the value to 900 seconds (15 minutes).</li>
+                    </ul>
+
+                    <p><b>How it works:</b> Once the system detects no keyboard or mouse input for 15 minutes, it
+                        immediately
+                        invokes the screensaver and locks the session. The user must re-enter their credentials to
+                        resume work.</p>
+
+                    <h2>Conclusion</h2>
+                    <p>The CloudTech infrastructure modernization project successfully transformed a chaotic Workgroup
+                        environment into a secure, scalable Enterprise Domain. By automating routine tasks and enforcing
+                        policy-based security, CloudTech is now positioned for further growth with a secure foundation
+                        for future cloud integrations.</p>
+
+                    <!-- Footer Nav -->
+                    <div class="project-footer-nav">
+                        <a href="../index.html#projects" class="nav-link-block">
+                            <span class="nav-sub">Return</span>
+                            <span class="nav-title"><i class="fas fa-arrow-left"></i> All Projects</span>
+                        </a>
+                        <a href="esxi.html" class="nav-link-block next">
+                            <span class="nav-sub">Next Project</span>
+                            <span class="nav-title">Enterprise Virtualization with VMware ESXi <i
+                                    class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="brand">Oscar<span>Mireku</span></div>
+            <p>&copy; 2025 Oscar Mireku. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+        function shareProject() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Enterprise Identity Modernization: Active Directory & Automation',
+                    text: 'Check out this project by Oscar Mireku regarding Active Directory and automation.',
+                    url: window.location.href,
+                })
+                    .then(() => console.log('Successful share'))
+                    .catch((error) => console.log('Error sharing', error));
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(window.location.href).then(function () {
+                    const btn = document.querySelector('.share-btn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Link Copied!';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2000);
+                }, function (err) {
+                    console.error('Async: Could not copy text: ', err);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
