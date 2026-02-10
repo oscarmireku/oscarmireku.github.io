@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Infrastructure Monitoring with Zabbix | Oscar Mireku</title>
+    <meta name="description"
+        content="Learn how to deploy Zabbix for enterprise-class infrastructure monitoring. Step-by-step guide with SNMP configuration and automated discovery.">
+    <meta name="keywords"
+        content="Zabbix, Network Monitoring, SNMP, Infrastructure Monitoring, Cisco, VMware, Windows Server">
+    <meta name="author" content="Oscar Mireku">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://oscarmireku.github.io/projects/zabbix.html">
+    <meta property="og:title" content="Comprehensive Infrastructure Monitoring with Zabbix">
+    <meta property="og:description"
+        content="Learn how to deploy Zabbix for enterprise-class infrastructure monitoring.">
+    <meta property="og:image" content="https://oscarmireku.github.io/images/zabbix/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oscarmireku.github.io/projects/zabbix.html">
+    <meta property="twitter:title" content="Comprehensive Infrastructure Monitoring with Zabbix">
+    <meta property="twitter:description"
+        content="Learn how to deploy Zabbix for enterprise-class infrastructure monitoring.">
+    <meta property="twitter:image" content="https://oscarmireku.github.io/images/zabbix/logo.png">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="project-page">
+    <header id="header">
+        <nav class="navbar">
+            <a href="../index.html" class="logo">Oscar<span>Mireku</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact" class="btn-primary">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Lively Full-Width Hero -->
+        <div class="project-hero-section">
+            <img src="../images/zabbix/logo.jpg" class="project-hero-bg" alt="Zabbix Monitoring">
+            <div class="project-hero-overlay">
+                <h1>Comprehensive Infrastructure Monitoring with Zabbix</h1>
+                <p style="margin-bottom: 5rem;"> </p>
+            </div>
+        </div>
+
+        <section class="section" style="padding-top: 0;">
+            <div class="container project-content-wrapper">
+                <div class="detailed-content">
+                    <div class="project-header">
+                        <h2>Project Background</h2>
+                        <button class="share-btn" onclick="shareProject()">
+                            <i class="fas fa-share-alt"></i> Share Project
+                        </button>
+                    </div>
+                    <p>In a production environment, you cannot fix what you cannot see. This project details my
+                        deployment of <b>Zabbix</b>, an enterprise-class open-source monitoring solution, to gain
+                        real-time visibility into my homelab infrastructure.</p>
+
+                    <p>The goal was to move away from reactive troubleshooting ("The network feels slow") to proactive
+                        monitoring ("Switch interface Gi1/0/1 has 2% packet loss").</p>
+
+                    <h2>The Environment</h2>
+                    <p>My lab environment simulates a typical small-to-medium business network:</p>
+
+                    <ul>
+                        <li><b>Monitoring Server:</b> Zabbix Server (running on Linux)</li>
+                        <li><b>Network Hardware:</b>
+                            <ul>
+                                <li>1x Physical Cisco Router (R1)</li>
+                                <li>1x Physical Cisco Switch (S1)</li>
+                            </ul>
+                        </li>
+                        <li><b>Virtualization Host:</b> VMware ESXi</li>
+                        <li><b>Endpoints (VMs):</b>
+                            <ul>
+                                <li>Windows Server 2022 (Domain Controller - DC-01)</li>
+                                <li>Windows Server 2022 (File Server - FS-01)</li>
+                                <li>Windows 10 Clients (WIN10-01, WIN10-02)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/topology.png" alt="Network Topology"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Network topology showing the Zabbix monitoring infrastructure.
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/esxi.png" alt="ESXi"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            ESXi host showing VM's to be monitored.
+                        </figcaption>
+                    </figure>
+
+                    <h2>Network Device Configuration (SNMP)</h2>
+                    <p>For the physical Cisco gear (R1 and S1), I utilized <b>SNMP (Simple Network Management
+                            Protocol)</b>. This allows the Zabbix server to query the devices for interface statistics,
+                        CPU load, and uptime without needing an agent installed on the firmware.</p>
+
+                    <h3>Enable SNMP on Cisco IOS</h3>
+                    <p>I configured SNMP on the router and switch using using the community string "public" and
+                        read-only
+                        access.</p>
+
+                    <p><b>Note:</b> In a production environment, I would use SNMPv3 for encryption and authentication.
+                    </p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/router.png" alt="SNMP Configuration on router"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            running config showing snmp configuration on router
+                        </figcaption>
+                    </figure>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/switch.png" alt="SNMP Configuration on switch"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            running config showing snmp configuration on switch
+                        </figcaption>
+                    </figure>
+
+
+                    <h2>Windows Endpoint Configuration (Zabbix Agent)</h2>
+                    <p>For the Windows VMs running on ESXi, I chose the <b>Zabbix Agent</b> method over SNMP. The agent
+                        provides much deeper metrics, such as service states, detailed memory usage, and disk queue
+                        length.</p>
+
+
+                    <h3>Agent Installation</h3>
+                    <p>I downloaded the Zabbix Agent (MSI installer) and deployed it on DC-01, FS-01, and the Windows 10
+                        clients. Installing the zabbix agent allows traffic on port 10050 (TCP) to flow between the
+                        agent and
+                        the server.</p>
+
+                    <p>During the setup wizard, I configured the following:</p>
+                    <ul>
+                        <li><b>Host Name:</b> Must match the hostname of the VM exactly (e.g., DC-01).</li>
+                        <li><b>Zabbix Server IP:</b> Entered the IP of my Linux Zabbix server.</li>
+                        <li><b>Server or Proxy for Active Checks:</b> Entered the same Zabbix Server IP.</li>
+                    </ul>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/agent.png" alt="Zabbix Agent setup"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Zabbix Agent setup on DC-01
+                        </figcaption>
+                    </figure>
+
+                    <p>Once installed, the service <b>Zabbix Agent</b> starts automatically.</p>
+
+                    <h2>Automating Deployment with Zabbix Auto Discovery</h2>
+                    <p>Manually adding hosts is inefficient and time consuming. I configured <b>Zabbix Auto
+                            Discovery</b> to scan my
+                        network subnet and automatically add devices as they come online.</p>
+
+                    <h3>Creating the Discovery Rule</h3>
+                    <p>In the Zabbix Dashboard, I navigated to <b>Data collection > Discovery</b> and created a new
+                        rule called <b>Device Discovery</b> to discover the devices in my network.</p>
+
+                    <ul>
+                        <li><b>IP Range:</b> 10.35.35.1-254 (to cover the entire subnet)</li>
+                        <li><b>Update Interval:</b> 1m </li>
+                        <li><b>Enabled:</b> Yes </li>
+                        <li><b>Checks: for Network Devices</b>
+                            <ul>
+                                <li>Check type: SNMPV2 agent</li>
+                                <li>Port range: 161</li>
+                                <li>SNMPv2 community: public </li>
+                                <li>SNMP OID: 1.3.6.1.2.1.1.5.0 (to identify the system name)</li>
+                            </ul>
+                        </li>
+                        <figure style="margin: 2rem 0;">
+                            <img src="../images/zabbix/net.png" alt="Zabbix Discovery Rules"
+                                style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                            <figcaption
+                                style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                                Zabbix auto discovery configuration showing network discovery rules.
+                            </figcaption>
+                        </figure>
+
+                        <li><b>Checks: for Windows Devices</b>
+                            <ul>
+                                <li>Check type: Zabbix agent</li>
+                                <li>Port range: 10050</li>
+                                <li>Key: system.hostname (to get the name of the host)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/win.png" alt="Zabbix Discovery Rules"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Zabbix auto discovery configuration showing windows discovery rules.
+                        </figcaption>
+                    </figure>
+
+                    <h3>Create Discovery Actions</h3>
+                    <p>Next, I defined what Zabbix should do when it finds a device. I went to <b>Alerts > Actions >
+                            Discovery actions</b> and created 2 actions:</p>
+
+                    <ul>
+                        <li><b>Condition:</b> If "Service Type" equals "SNMPv2 agent"
+                            <ul>
+                                <li><b>Operation:</b> Add to host groups "Network Devices"</li>
+                                <li><b>Operation:</b> Link to templates "Cisco IOS by SNMP"</li>
+                            </ul>
+                        </li>
+
+                        <figure style="margin: 2rem 0;">
+                            <img src="../images/zabbix/snmp.png" alt="snmp discovery action"
+                                style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                            <figcaption
+                                style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                                SNMP discovery action configuration.
+                            </figcaption>
+                        </figure>
+
+
+                        <li><b>Condition:</b> If "Service Type" equals "Zabbix Agent"
+                            <ul>
+                                <li><b>Operation:</b> Add to host groups "Windows Devices"</li>
+                                <li><b>Operation:</b> Link to templates "Windows by Zabbix agent"</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/zabbix.png" alt="Zabbix Discovery Rules"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Zabbix discovery action configuration.
+                    </figure>
+
+                    <p>This automation means that as soon as I configure R1 or install the agent on DC-01, they
+                        automatically appear in my dashboard within minutes. The network devices shows with their IP
+                        addresses (rename them to R1 and S1)
+                        and the windows devices shows with their hostnames.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/hosts.png" alt="Zabbix Discovered hosts"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Zabbix automatically discovered hosts.
+                    </figure>
+
+                    <h2>Dashboards</h2>
+                    <p>After the setup, I built custom dashboards to visualize the health of the infrastructure in
+                        real-time. These dashboards provide at-a-glance visibility into critical metrics across network
+                        and server infrastructure.</p>
+
+                    <h3>Network Devices Dashboard</h3>
+                    <p>This dashboard provides comprehensive monitoring of the physical network layer, tracking both the
+                        router (R1) and switch (S1) performance metrics.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/networkdash.png" alt="Network Dashboard"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Network Devices dashboard showing real-time monitoring of router and switch performance.
+                        </figcaption>
+                    </figure>
+
+                    <p><b>Key Widgets:</b></p>
+                    <ul>
+                        <li><b>CPU Utilization (R1 & S1):</b> Tracks processor load on both devices to identify
+                            performance bottlenecks</li>
+                        <li><b>Memory Utilization (R1 & S1):</b> Monitors RAM usage to prevent memory exhaustion issues
+                        </li>
+                        <li><b>CPU Temperature (R1 & S1):</b> Tracks thermal performance to prevent hardware damage from
+                            overheating</li>
+                        <li><b>Ping Response Time:</b> Measures ICMP latency for both devices to detect network
+                            congestion</li>
+                        <li><b>WAN Packet Loss (R1):</b> Monitors dropped packets on the router's WAN interface to
+                            identify ISP issues</li>
+                        <li><b>LAN Packet Loss (S1):</b> Tracks packet loss on switch interfaces to detect cabling or
+                            port issues</li>
+                        <li><b>Interface Network Traffic:</b> Displays inbound/outbound bandwidth utilization on key
+                            interfaces (Gi1/0/2 on S1, Gi1/0/2 on R1)</li>
+                        <li><b>Inbound Packets with Errors:</b> Monitors interface errors that could indicate physical
+                            layer problems</li>
+                    </ul>
+
+                    <p><b>Why it matters:</b> This dashboard allows me to quickly distinguish between ISP-related issues
+                        (high WAN packet loss) versus internal network problems (high LAN packet loss or interface
+                        errors). The interface bandwidth graphs help identify bottlenecks before users complain about
+                        slow performance.</p>
+
+                    <h3>Windows Devices Dashboard</h3>
+                    <p>This dashboard focuses on the application and OS layer, providing deep visibility into Windows
+                        server and workstation health.</p>
+
+                    <figure style="margin: 2rem 0;">
+                        <img src="../images/zabbix/windowsdash.png" alt="Windows Dashboard"
+                            style="width: 100%; border-radius: 1rem; border: 1px solid rgba(0,0,0,0.1);">
+                        <figcaption
+                            style="text-align: center; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">
+                            Windows Devices dashboard showing system performance metrics and active problems.
+                        </figcaption>
+                    </figure>
+
+                    <p><b>Key Widgets:</b></p>
+                    <ul>
+                        <li><b>Top Hosts by CPU Usage:</b> Ranks all Windows devices (DC-01, FS-01, WIN10-01, WIN10-02)
+                            by processor utilization</li>
+                        <li><b>Top Hosts by Memory Usage:</b> Identifies which systems are consuming the most RAM</li>
+                        <li><b>Disk Queue Length (FS-01):</b> Critical metric for the file server showing storage I/O
+                            performance</li>
+                        <li><b>Disk Utilization and Queue (WIN10-01):</b> Monitors disk performance on workstations</li>
+                        <li><b>Disk Write Rate (DC-01 & FS-01):</b> Tracks write operations per second on critical
+                            servers</li>
+                        <li><b>Spaced Used (FS-01):</b> Monitors storage capacity to prevent disk space exhaustion</li>
+                        <li><b>Network Traffic (DC-01):</b> Displays bits sent/received on the domain controller's
+                            network interface</li>
+                        <li><b>Problems Panel:</b> Real-time alert feed showing active issues (e.g., stopped Windows
+                            services like GoogleUpdater)</li>
+                    </ul>
+
+                    <p><b>Why it matters:</b> The <b>Disk Queue Length</b> widget on FS-01 is particularly critical.
+                        High
+                        values indicate storage bottlenecks that cause file access delays, even when CPU usage is
+                        normal. The <b>Problems panel</b> provides immediate visibility into service failures, allowing
+                        for rapid response before users are impacted. The CPU and memory rankings help identify
+                        resource-constrained systems that may need hardware upgrades.</p>
+
+                    <h2>Conclusion</h2>
+                    <p>This project demonstrates the importance of <b>observability</b> in IT operations. By combining
+                        SNMP for network gear and Zabbix Agents for Windows, I created a unified "Single Pane of Glass"
+                        that allows for rapid root-cause analysis and ensures high availability for the environment.</p>
+
+                    <h3>Key Takeaways & Skills Gained</h3>
+                    <ul>
+                        <li><b>Enterprise Monitoring:</b> Deployed and configured Zabbix for comprehensive
+                            infrastructure monitoring.</li>
+                        <li><b>Agent Deployment:</b> Installed and configured Zabbix agents on Windows endpoints for
+                            deep system metrics.</li>
+                        <li><b>Automated Discovery:</b> Implemented network auto-discovery to automatically onboard new
+                            devices.</li>
+                        <li><b>Dashboard Creation:</b> Built custom dashboards for network and server monitoring with
+                            actionable metrics.</li>
+
+                    </ul>
+
+                    <!-- Footer Nav -->
+                    <div class="project-footer-nav">
+                        <a href="../index.html#projects" class="nav-link-block">
+                            <span class="nav-sub">Return</span>
+                            <span class="nav-title"><i class="fas fa-arrow-left"></i> All Projects</span>
+                        </a>
+                        <a href="activedirectory.html" class="nav-link-block next">
+                            <span class="nav-sub">Next Project</span>
+                            <span class="nav-title">Active Directory & Automation <i
+                                    class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="brand">Oscar<span>Mireku</span></div>
+            <p>&copy; 2025 Oscar Mireku. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+        function shareProject() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Comprehensive Infrastructure Monitoring with Zabbix',
+                    text: 'Check out this project by Oscar Mireku regarding Zabbix infrastructure monitoring.',
+                    url: window.location.href,
+                })
+                    .then(() => console.log('Successful share'))
+                    .catch((error) => console.log('Error sharing', error));
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(window.location.href).then(function () {
+                    const btn = document.querySelector('.share-btn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Link Copied!';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2000);
+                }, function (err) {
+                    console.error('Async: Could not copy text: ', err);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
